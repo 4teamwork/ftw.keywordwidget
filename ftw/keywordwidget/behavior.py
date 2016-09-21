@@ -29,8 +29,7 @@ class IKeywordCategorization(model.Schema):
         value_type=ChoicePlus(
             title=u"Multiple",
             required=False,
-            vocabulary='plone.app.vocabularies.Keywords',
-            allow_new=True),
+            vocabulary='plone.app.vocabularies.Keywords', ),
         required=False,
         missing_value=(),
     )

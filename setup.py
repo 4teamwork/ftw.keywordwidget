@@ -50,6 +50,7 @@ setup(
         'plone.dexterity',
         'plone.app.dexterity',
         'plone.app.vocabularies',
+        'plone.api',
         'Plone',
     ],
 

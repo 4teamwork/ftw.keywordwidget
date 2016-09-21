@@ -1,4 +1,7 @@
+from binascii import b2a_qp
 from ftw.keywordwidget import _
+from ftw.keywordwidget.field import ChoicePlus
+from plone import api
 from Products.CMFPlone.utils import safe_unicode
 from z3c.form.browser.select import SelectWidget
 from z3c.form.interfaces import IFieldWidget
@@ -14,7 +17,6 @@ from zope.schema.interfaces import IChoice
 from zope.schema.interfaces import ICollection
 from zope.schema.vocabulary import SimpleTerm
 from zope.schema.vocabulary import SimpleVocabulary
-from binascii import b2a_qp
 
 
 class IKeywordWidget(ISelectWidget):
@@ -33,6 +35,21 @@ class KeywordWidget(SelectWidget):
     size = u'10'
 
     multiple = u'multiple'
+
+    def update(self):
+        super(KeywordWidget, self).update()
+
+        if isinstance(self.field.value_type, ChoicePlus):
+            has_permission = api.user.has_permission(
+                'ftw.keywordwidget: Add new term',
+                obj=self.context)
+            self.field.value_type.allow_new = has_permission
+
+    def show_add_term_field(self):
+        if isinstance(self.field.value_type, ChoicePlus):
+            return self.field.value_type.allow_new
+        else:
+            return False
 
     def get_new_values_from_request(self):
         """Get the values from the request and splits addition values by

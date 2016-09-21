@@ -2,6 +2,7 @@ from ftw.builder import Builder
 from ftw.builder import create
 from ftw.keywordwidget.tests import FunctionalTestCase
 from ftw.testbrowser import browsing
+import transaction
 
 
 class TestKeywordWidget(FunctionalTestCase):
@@ -60,3 +61,26 @@ class TestKeywordWidget(FunctionalTestCase):
         tags = browser.find_field_by_text(u'Tags')
         self.assertTupleEqual(('New Item 2', 'NewItem1', 'N=C3=B6i 3'),
                               tuple(tags.value))
+
+    @browsing
+    def test_add_new_terms_is_only_available_to_certain_roles(self, browser):
+        content = create(Builder('sample content').titled(u'A content'))
+        content.manage_permission('ftw.keywordwidget: Add new term',
+                                  roles=[],
+                                  acquire=0)
+        transaction.commit()
+
+        browser.login().visit(content, view='edit')
+        tags = browser.find_field_by_text(u'Tags')
+        self.assertFalse(len(browser.css('#' + tags.attrib['id'] + '_new')),
+                         'Add new term field should NOT be there')
+
+        content.manage_permission('ftw.keywordwidget: Add new term',
+                                  roles=['Manager'],
+                                  acquire=0)
+        transaction.commit()
+
+        browser.visit(content, view='edit')
+        tags = browser.find_field_by_text(u'Tags')
+        self.assertTrue(browser.css('#' + tags.attrib['id'] + '_new'),
+                        'Add new term field should BE there')

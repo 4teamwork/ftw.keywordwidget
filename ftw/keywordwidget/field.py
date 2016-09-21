@@ -12,10 +12,11 @@ class ChoicePlus(Choice):
     """A choice field, which allows additional terms.
     Example: Allow new tags for catalog based vocabulary"""
 
-    def __init__(self, values=None, vocabulary=None, source=None,
-                 allow_new=True, **kw):
+    allow_new = None
+
+    def __init__(self, values=None, vocabulary=None, source=None, **kw):
         super(ChoicePlus, self).__init__(values, vocabulary, source, **kw)
-        self.allow_new = allow_new
+        self.allow_new = True
 
     def _validate(self, value):
         # Pass all validations during initialization
@@ -31,6 +32,7 @@ class ChoicePlus(Choice):
             except VocabularyRegistryError:
                 raise ValueError("Can't validate value without vocabulary")
 
+        # The widget can control this attribute too
         if self.allow_new:
             # Allow new values!
             return
