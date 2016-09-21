@@ -1,0 +1,35 @@
+<configure
+    xmlns="http://namespaces.zope.org/zope"
+    xmlns:genericsetup="http://namespaces.zope.org/genericsetup"
+    xmlns:five="http://namespaces.zope.org/five"
+    xmlns:plone="http://namespaces.plone.org/plone"
+    i18n_domain="ftw.keywordwidget">
+
+    <five:registerPackage package="." initialize=".initialize" />
+
+    <include file="widget.zcml" />
+
+    <genericsetup:registerProfile
+        name="default"
+        title="ftw.keywordwidget default"
+        directory="profiles/default"
+        provides="Products.GenericSetup.interfaces.EXTENSION"
+        />
+
+    <genericsetup:registerProfile
+        name="uninstall"
+        title="ftw.keywordwidget : uninstall"
+        directory="profiles/uninstall"
+        provides="Products.GenericSetup.interfaces.EXTENSION"
+        for="Products.CMFPlone.interfaces.IMigratingPloneSiteRoot"
+        />
+
+    <plone:behavior
+        title="Categorization with keywordwidget"
+        description="Adds keywords/tags/subjects"
+        provides=".behavior.IKeywordCategorization"
+        factory=".behavior.Categorization"
+        for="plone.dexterity.interfaces.IDexterityContent"
+        />
+
+</configure>
