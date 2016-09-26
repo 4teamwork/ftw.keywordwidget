@@ -1,3 +1,4 @@
+from ftw.keywordwidget.field import ChoicePlus
 from ftw.keywordwidget.widget import KeywordFieldWidget
 from plone.app.dexterity import PloneMessageFactory as _PMF
 from plone.app.dexterity.behaviors.metadata import MetadataBase
@@ -7,7 +8,6 @@ from plone.supermodel import model
 from z3c.form.interfaces import IEditForm, IAddForm
 from zope import schema
 from zope.interface import alsoProvides
-from ftw.keywordwidget.field import ChoicePlus
 
 
 class IKeywordCategorization(model.Schema):
@@ -28,7 +28,6 @@ class IKeywordCategorization(model.Schema):
         ),
         value_type=ChoicePlus(
             title=u"Multiple",
-            required=False,
             vocabulary='plone.app.vocabularies.Keywords', ),
         required=False,
         missing_value=(),

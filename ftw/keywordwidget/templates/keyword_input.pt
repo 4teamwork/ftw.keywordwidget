@@ -47,8 +47,12 @@
         <span i18n:translate="label_new_tokens">New entries</span>
         <textarea tal:attributes="id string:${view/id}_new;
                                   name string:${view/name}_new"
-                  tal:content="python:request.get('%s_new' % view.name, '')">
+                  tal:content="python:request.get('%s_new' % view.name, '')"
+                  tal:condition="view/multiple">
         </textarea>
+        <input tal:attributes="id string:${view/id}_new;
+                               name string:${view/name}_new;
+                               value python:request.get('%s_new' % view.name, '')"
+                  tal:condition="not: view/multiple" />
     </div>
 </div>
-

@@ -23,7 +23,6 @@ class FtwLayer(PloneSandboxLayer):
 
         z2.installProduct(app, 'ftw.keywordwidget')
 
-
     def setUpPloneSite(self, portal):
         applyProfile(portal, 'ftw.keywordwidget:default')
 

@@ -35,16 +35,25 @@ class FunctionalTestCase(TestCase):
         setRoles(self.portal, TEST_USER_ID, list(roles))
         transaction.commit()
 
-    def setup_fti(self):
+    def setup_fti(self, additional_behaviors=None):
         types_tool = self.portal.portal_types
+
+        default_behaviors = [
+            'plone.app.dexterity.behaviors.metadata.IBasic',
+            'plone.app.content.interfaces.INameFromTitle'
+        ]
+
+        if additional_behaviors is None:
+            default_behaviors += [
+                'ftw.keywordwidget.behavior.IKeywordCategorization',
+            ]
+        else:
+            default_behaviors += additional_behaviors
 
         fti = DexterityFTI('SampleContent')
         fti.schema = 'ftw.keywordwidget.tests.ISampleContentSchema'
         fti.klass = 'ftw.keywordwidget.tests.SampleContent'
-        fti.behaviors = (
-            'plone.app.dexterity.behaviors.metadata.IBasic',
-            'plone.app.content.interfaces.INameFromTitle',
-            'ftw.keywordwidget.behavior.IKeywordCategorization')
+        fti.behaviors = tuple(default_behaviors)
         fti.default_view = 'view'
         types_tool._setObject('SampleContent', fti)
 

@@ -3,52 +3,5 @@
     xmlns:z3c="http://namespaces.zope.org/z3c"
     i18n_domain="ftw.keywordwidget">
 
-<!-- 
-  <class class=".widget.KeywordWidget">
-    <require
-        permission="zope.Public"
-        interface="z3c.form.interfaces.ISelectWidget"
-        />
-  </class> -->
-
-<!--  <adapter
-      factory=".widget.ChoiceWidgetDispatcher"
-      />
- -->
-  <adapter
-      factory=".widget.KeywordFieldWidget"
-      />
-
-<!--   <adapter
-      factory=".select.CollectionSelectFieldWidget"
-      />
-
-  <adapter
-      factory=".select.CollectionChoiceSelectFieldWidget"
-      />
- -->
-
-  <z3c:widgetTemplate
-      mode="display"
-      widget="ftw.keywordwidget.widget.IKeywordWidget"
-      layer="z3c.form.interfaces.IFormLayer"
-      template="templates/keyword_display.pt"
-      />
-
-  <z3c:widgetTemplate
-      mode="input"
-      widget="ftw.keywordwidget.widget.IKeywordWidget"
-      layer="z3c.form.interfaces.IFormLayer"
-      template="templates/keyword_input.pt"
-      />
-
-  <z3c:widgetTemplate
-      mode="hidden"
-      widget="ftw.keywordwidget.widget.IKeywordWidget"
-      layer="z3c.form.interfaces.IFormLayer"
-      template="templates/keyword_hidden.pt"
-      />
-
-    <adapter factory=".converter.KeywordDataConverter" />
 
 </configure>

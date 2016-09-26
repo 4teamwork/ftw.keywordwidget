@@ -3,28 +3,20 @@ from ftw.keywordwidget import _
 from ftw.keywordwidget.field import ChoicePlus
 from plone import api
 from Products.CMFPlone.utils import safe_unicode
+from Products.Five.browser.pagetemplatefile import ViewPageTemplateFile
 from z3c.form.browser.select import SelectWidget
+from z3c.form.interfaces import DISPLAY_MODE
+from z3c.form.interfaces import HIDDEN_MODE
 from z3c.form.interfaces import IFieldWidget
-from z3c.form.interfaces import IFormLayer
-from z3c.form.interfaces import ISelectWidget
+from z3c.form.interfaces import INPUT_MODE
 from z3c.form.interfaces import NOVALUE
 from z3c.form.widget import FieldWidget
-from zope.component import adapter
 from zope.interface import implementer
-from zope.interface import implements
-from zope.interface import Interface
-from zope.schema.interfaces import IChoice
-from zope.schema.interfaces import ICollection
 from zope.schema.vocabulary import SimpleTerm
 from zope.schema.vocabulary import SimpleVocabulary
 
 
-class IKeywordWidget(ISelectWidget):
-    """Keyword widget interface"""
-
-
 class KeywordWidget(SelectWidget):
-    implements(ICollection, IKeywordWidget)
 
     klass = u'keyword-widget'
 
@@ -32,9 +24,36 @@ class KeywordWidget(SelectWidget):
 
     noValueMessage = _('no value')
     promptMessage = _('select a value ...')
-    size = u'10'
+    multiple = 'multiple'
+    size = 10
 
-    multiple = u'multiple'
+    js_config = {}
+
+    display_template = ViewPageTemplateFile('templates/keyword_display.pt')
+    input_template = ViewPageTemplateFile('templates/keyword_input.pt')
+    hidden_template = ViewPageTemplateFile('templates/keyword_hidden.pt')
+
+    def render(self):
+        if self.mode == INPUT_MODE:
+            return self.input_template(self)
+        elif self.mode == DISPLAY_MODE:
+            return self.display_template(self)
+        elif self.mode == HIDDEN_MODE:
+            return self.hidden_template(self)
+        raise NotImplementedError(
+            'Mode: "{0}" not supported'.format(self.mode))
+
+    def get_new_values_from_request(self):
+        """Get the values from the request and splits addition values by
+        newlines,
+        """
+        new_values = []
+        new = self.request.get('{0}_new'.format(self.name), '').split('\n')
+        for value in new:
+            cleanedup_value = value.strip().strip('\r').strip('\n')
+            if cleanedup_value:
+                new_values.append(cleanedup_value)
+        return new_values
 
     def update(self):
         super(KeywordWidget, self).update()
@@ -50,19 +69,6 @@ class KeywordWidget(SelectWidget):
             return self.field.value_type.allow_new
         else:
             return False
-
-    def get_new_values_from_request(self):
-        """Get the values from the request and splits addition values by
-        newlines,
-        """
-        new_values = []
-        new = self.request.get(
-            '{0}_new'.format(self.name), '').split('\n')
-        for value in new:
-            cleanedup_value = value.strip().strip('\r').strip('\n')
-            if cleanedup_value:
-                new_values.append(cleanedup_value)
-        return new_values
 
     def extract(self, default=NOVALUE):
         """See z3c.form.interfaces.IWidget.
@@ -112,13 +118,6 @@ class KeywordWidget(SelectWidget):
         return self.terms
 
 
-@adapter(IChoice, Interface, IFormLayer)
 @implementer(IFieldWidget)
-def KeywordFieldWidget(field, source, request=None):
-    """IFieldWidget factory for SelectWidget."""
-    # BBB: emulate our pre-2.0 signature (field, request)
-    if request is None:
-        real_request = source
-    else:
-        real_request = request
-    return FieldWidget(field, KeywordWidget(real_request))
+def KeywordFieldWidget(field, request):
+    return FieldWidget(field, KeywordWidget(request))
