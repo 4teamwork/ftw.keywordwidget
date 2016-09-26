@@ -7,6 +7,8 @@
 
     <five:registerPackage package="." initialize=".initialize" />
 
+    <include package="plone.app.vocabularies" />
+
     <include file="permission.zcml" />
     <include file="widget.zcml" />
 
@@ -30,6 +32,13 @@
         description="Adds keywords/tags/subjects"
         provides=".behavior.IKeywordCategorization"
         factory=".behavior.Categorization"
+        for="plone.dexterity.interfaces.IDexterityContent"
+        />
+
+    <plone:behavior
+        title="Test behavior for keywordwidget Use-Cases"
+        description="Some demo Use-Cases"
+        provides=".behavior.IKeywordUseCases"
         for="plone.dexterity.interfaces.IDexterityContent"
         />
 

@@ -3,7 +3,7 @@
      tal:omit-tag="">
     <select id="" name="" class="" tabindex="" disabled="" multiple="" size=""
             tal:attributes="id view/id;
-                            name string:${view/name}:list;
+                            name string:${view/name};
                             class view/klass;
                             style view/style;
                             title view/title;
@@ -50,9 +50,5 @@
                   tal:content="python:request.get('%s_new' % view.name, '')"
                   tal:condition="view/multiple">
         </textarea>
-        <input tal:attributes="id string:${view/id}_new;
-                               name string:${view/name}_new;
-                               value python:request.get('%s_new' % view.name, '')"
-                  tal:condition="not: view/multiple" />
     </div>
 </div>

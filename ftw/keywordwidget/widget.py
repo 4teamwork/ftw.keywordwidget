@@ -11,6 +11,7 @@ from z3c.form.interfaces import IFieldWidget
 from z3c.form.interfaces import INPUT_MODE
 from z3c.form.interfaces import NOVALUE
 from z3c.form.widget import FieldWidget
+from zope import schema
 from zope.interface import implementer
 from zope.schema.vocabulary import SimpleTerm
 from zope.schema.vocabulary import SimpleVocabulary
@@ -27,11 +28,16 @@ class KeywordWidget(SelectWidget):
     multiple = 'multiple'
     size = 10
 
+    # KeywordWidget specific
     js_config = {}
+    choice_field = None
 
     display_template = ViewPageTemplateFile('templates/keyword_display.pt')
     input_template = ViewPageTemplateFile('templates/keyword_input.pt')
     hidden_template = ViewPageTemplateFile('templates/keyword_hidden.pt')
+
+    def __init__(self, request):
+        self.request = request
 
     def render(self):
         if self.mode == INPUT_MODE:
@@ -58,14 +64,34 @@ class KeywordWidget(SelectWidget):
     def update(self):
         super(KeywordWidget, self).update()
 
-        if isinstance(self.field.value_type, ChoicePlus):
+        self.get_choice_field()
+        self.update_multivalued_property()
+
+        if isinstance(self.choice_field, ChoicePlus):
             has_permission = api.user.has_permission(
                 'ftw.keywordwidget: Add new term',
                 obj=self.context)
             self.field.value_type.allow_new = has_permission
 
+    def update_multivalued_property(self):
+        if not isinstance(self.field, schema.List):
+            self.multiple = ''
+            self.size = 1
+
+    def get_choice_field(self):
+        is_list = isinstance(self.field, schema.List)
+        is_choice = isinstance(self.field, schema.Choice)
+
+        if is_list and isinstance(self.field.value_type, schema.Choice):
+            self.choice_field = self.field.value_type
+        elif is_choice:
+            self.choice_field = self.field
+        else:
+            raise ValueError('The field or the value type of the field '
+                             'needs to be a Choice field.')
+
     def show_add_term_field(self):
-        if isinstance(self.field.value_type, ChoicePlus):
+        if isinstance(self.choice_field, ChoicePlus):
             return self.field.value_type.allow_new
         else:
             return False
@@ -75,24 +101,29 @@ class KeywordWidget(SelectWidget):
         """
         values = super(KeywordWidget, self).extract(default=default)
 
-        # Adding new keywords, which are not in the vocab/source
-        if (self.name + '_new' not in self.request and
-                self.name + '-empty-marker' in self.request):
-            return []
+        if not self.show_add_term_field():
+            return values
 
-        new_values = self.get_new_values_from_request()
+        else:
+            # Adding new keywords, which are not in the vocab/source
+            if (self.name + '_new' not in self.request and
+                    self.name + '-empty-marker' in self.request):
+                return []
 
-        for new_value in new_values:
-            if new_value not in values:
+            new_values = self.get_new_values_from_request()
 
-                # The new values needs to fit the token value in the vocabulary
-                if isinstance(new_value, unicode):
-                    new_value = new_value.encode('utf-8')
-                    new_value = b2a_qp(new_value)
+            for new_value in new_values:
+                if new_value not in values:
 
-                values.append(new_value)
+                    # The new values needs to fit the token value in the
+                    # vocabulary
+                    if isinstance(new_value, unicode):
+                        new_value = new_value.encode('utf-8')
+                        new_value = b2a_qp(new_value)
 
-        return values and values or default
+                    values.append(new_value)
+
+            return values and values or default
 
     def updateTerms(self):
         super(KeywordWidget, self).updateTerms()

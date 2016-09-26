@@ -49,3 +49,27 @@ class Categorization(MetadataBase):
     def _set_subjects(self, value):
         self.context.subject = value
     subjects = property(_get_subjects, _set_subjects)
+
+
+class IKeywordUseCases(model.Schema):
+
+    directives.widget('types', KeywordFieldWidget)
+    types = schema.List(
+        title=u'Types',
+        value_type=schema.Choice(
+            title=u"Multiple",
+            vocabulary='plone.app.vocabularies.PortalTypes',
+            ),
+        required=False,
+        missing_value=(),
+    )
+
+    directives.widget('types2', KeywordFieldWidget)
+    types2 = schema.Choice(
+        title=u'Single type',
+        vocabulary='plone.app.vocabularies.PortalTypes',
+        required=False,
+        missing_value=(),
+    )
+
+alsoProvides(IKeywordUseCases, IFormFieldProvider)
