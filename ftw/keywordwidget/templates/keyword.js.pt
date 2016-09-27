@@ -2,7 +2,7 @@ $(function() {
 
     function initChosen(){
         var widget = $('#<tal:widgetid replace="view/id" />');
-        var config = widget.data("chosenConfig");
+        var config = widget.data("chosenconfig");
         $(widget).chosen(config);
     }
 

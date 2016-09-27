@@ -15,6 +15,7 @@ from zope import schema
 from zope.interface import implementer
 from zope.schema.vocabulary import SimpleTerm
 from zope.schema.vocabulary import SimpleVocabulary
+import json
 
 
 class KeywordWidget(SelectWidget):
@@ -24,12 +25,12 @@ class KeywordWidget(SelectWidget):
     noValueToken = u''
 
     noValueMessage = _('no value')
-    promptMessage = _('select a value ...')
+    promptMessage = _('select some values ...')
     multiple = 'multiple'
     size = 10
 
     # KeywordWidget specific
-    js_config = {}
+    js_config = None
     choice_field = None
 
     display_template = ViewPageTemplateFile('templates/keyword_display.pt')
@@ -37,8 +38,9 @@ class KeywordWidget(SelectWidget):
     hidden_template = ViewPageTemplateFile('templates/keyword_hidden.pt')
     js_template = ViewPageTemplateFile('templates/keyword.js.pt')
 
-    def __init__(self, request):
+    def __init__(self, request, js_config=None):
         self.request = request
+        self.js_config = js_config
 
     def render(self):
         if self.mode == INPUT_MODE:
@@ -65,6 +67,7 @@ class KeywordWidget(SelectWidget):
     def update(self):
         super(KeywordWidget, self).update()
 
+        self.update_js_config()
         self.get_choice_field()
         self.update_multivalued_property()
 
@@ -74,10 +77,24 @@ class KeywordWidget(SelectWidget):
                 obj=self.context)
             self.field.value_type.allow_new = has_permission
 
+    def update_js_config(self):
+        # Sane default config
+        default_config = {
+            'placeholder_text_multiple': self.promptMessage,
+            'placeholder_text_single': self.promptMessage,
+            'width': '300px',
+        }
+
+        if self.js_config:
+            default_config.update(self.js_config)
+
+        self.js_config = json.dumps(default_config)
+
     def update_multivalued_property(self):
         if not isinstance(self.field, schema.List):
-            self.multiple = ''
+            self.multiple = None
             self.size = 1
+            self.promptMessage = _('select a values ...')
 
     def get_choice_field(self):
         is_list = isinstance(self.field, schema.List)
