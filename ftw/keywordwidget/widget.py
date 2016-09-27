@@ -68,8 +68,8 @@ class KeywordWidget(SelectWidget):
         super(KeywordWidget, self).update()
 
         self.update_multivalued_property()
-        self.update_js_config()
         self.get_choice_field()
+        self.update_js_config()
 
         if isinstance(self.choice_field, ChoicePlus):
             has_permission = api.user.has_permission(
@@ -83,6 +83,7 @@ class KeywordWidget(SelectWidget):
             'placeholder': self.promptMessage,
             'width': '300px',
             'allowClear': not self.field.required,
+            # 'tags': self.show_add_term_field()
         }
 
         if self.js_config:
