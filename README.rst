@@ -16,13 +16,22 @@ Primary Use-Case
 
 The widget provides the same functionality as the AT Keywordwidget with some benefits.
 
+Features from the AT Widget:
+- Protect adding new terms by a permission/role
+- Display all possible values
+- Add new terms
 
+Benefits:
+- Configurable Chosen JS widget
+- Sane defaults for the Widget
+- z3c.form Widget
+- Based on the SelectWidget (No new converter, etc. needed)
 
 Demarcation
 -----------
 There are several other z3c form widgets for plone 4.x, which provides a similar feature set, Like ``collective.z3cform.keywordwidget``, or the ``AutocompleteWidget``.
 
-But this widget is using the default ``zope.schema.Choice`` field, which allows you to provide any source or vocabulary for the widget.
+- They do not fit the primary Use-Case.
 
 Further you can configure the chosen2 plugin as you wish.
 
