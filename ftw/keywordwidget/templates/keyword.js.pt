@@ -1,0 +1,18 @@
+$(function() {
+
+    function initChosen(){
+        var widget = $('#<tal:widgetid replace="view/id" />');
+        var config = widget.data("chosenConfig");
+        $(widget).chosen(config);
+    }
+
+
+    $(window).load(function(){
+      if ($().chosen === undefined) {
+          console.warn('You need to make sure, that chosen jquery plugin is loaded');
+      } else {
+          initChosen();
+      }
+    });
+
+});

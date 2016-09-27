@@ -1,0 +1,11 @@
+<?xml version="1.0"?>
+<object name="portal_javascripts">
+
+    <javascript
+        id="++resource++ftw.keywordwidget/chosen_v1.6.2/chosen.jquery.min.js"
+        enabled="True"
+        insert-after="++resource++plone.app.jquery.js"
+        authenticated="True"
+        />
+
+</object>

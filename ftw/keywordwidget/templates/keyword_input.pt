@@ -24,6 +24,7 @@
                             onblur view/onblur;
                             onchange view/onchange;
                             multiple view/multiple;
+                            data-chosenConfig view/js_config;
                             size view/size">
 
         <tal:block repeat="item view/items">
@@ -51,4 +52,7 @@
                   tal:condition="view/multiple">
         </textarea>
     </div>
+
+    <script tal:content="view/keyword_js" />
+
 </div>

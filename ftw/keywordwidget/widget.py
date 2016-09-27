@@ -35,6 +35,7 @@ class KeywordWidget(SelectWidget):
     display_template = ViewPageTemplateFile('templates/keyword_display.pt')
     input_template = ViewPageTemplateFile('templates/keyword_input.pt')
     hidden_template = ViewPageTemplateFile('templates/keyword_hidden.pt')
+    js_template = ViewPageTemplateFile('templates/keyword.js.pt')
 
     def __init__(self, request):
         self.request = request
@@ -147,6 +148,9 @@ class KeywordWidget(SelectWidget):
 
         self.terms.terms = SimpleVocabulary(terms)
         return self.terms
+
+    def keyword_js(self):
+        return self.js_template(widgetid=self.id)
 
 
 @implementer(IFieldWidget)
