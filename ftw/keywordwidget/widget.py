@@ -56,13 +56,13 @@ class KeywordWidget(SelectWidget):
         """Get the values from the request and splits addition values by
         newlines,
         """
-        new_values = []
+        new_values = set()
         new = self.request.get('{0}_new'.format(self.name), '').split('\n')
         for value in new:
             cleanedup_value = value.strip().strip('\r').strip('\n')
             if cleanedup_value:
-                new_values.append(cleanedup_value)
-        return new_values
+                new_values.add(cleanedup_value)
+        return list(new_values)
 
     def update(self):
         super(KeywordWidget, self).update()
@@ -130,15 +130,17 @@ class KeywordWidget(SelectWidget):
 
             new_values = self.get_new_values_from_request()
 
+            if values is default:
+                values = []
+            else:
+                values = list(values)
+
             for new_value in new_values:
-                if new_value not in values:
-
-                    # The new values needs to fit the token value in the
-                    # vocabulary
-                    if isinstance(new_value, unicode):
-                        new_value = new_value.encode('utf-8')
-                        new_value = b2a_qp(new_value)
-
+                # The new values needs to fit the token value in the
+                # vocabulary
+                if isinstance(new_value, unicode):
+                    new_value = new_value.encode('utf-8')
+                    new_value = b2a_qp(new_value)
                     values.append(new_value)
 
             return values and values or default

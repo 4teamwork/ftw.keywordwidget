@@ -16,7 +16,7 @@ class TestKeywordWidget(FunctionalTestCase):
         # Create a content with some keywords
         create(Builder('sample content')
                .titled(u'Dummy content for keywords')
-               .having(subjects=['F\xc3\xb6\xc3\xb6', 'Bar', 'Baz']))
+               .having(subjects=('F\xc3\xb6\xc3\xb6', 'Bar', 'Baz')))
 
     @browsing
     def test_widget_render_input(self, browser):
@@ -96,3 +96,37 @@ class TestKeywordWidget(FunctionalTestCase):
         self.assertListEqual(
             ['width', 'placeholder_text_single', 'placeholder_text_multiple'],
             chosen_config.keys())
+
+    @browsing
+    def test_add_twice_the_same_term_in_fact_adds_only_one(self, browser):
+        content = create(Builder('sample content').titled(u'A content'))
+        browser.login().visit(content, view='edit')
+
+        tags = browser.find_field_by_text(u'Tags')
+        form = browser.find_form_by_field('Tags')
+        new = browser.css('#' + tags.attrib['id'] + '_new').first
+        new.text = u'New\nNew'
+        form.submit()
+
+        browser.visit(content, view='edit')
+        tags = browser.find_field_by_text(u'Tags')
+        self.assertTupleEqual(('New', ),
+                              tuple(tags.value))
+
+    @browsing
+    def test_add_new_term_to_a_give_set_of_tags(self, browser):
+        content = create(Builder('sample content')
+                         .titled(u'A content')
+                         .having(subjects=('Bar', 'Baz')))
+        browser.login().visit(content, view='edit')
+
+        tags = browser.find_field_by_text(u'Tags')
+        form = browser.find_form_by_field('Tags')
+        new = browser.css('#' + tags.attrib['id'] + '_new').first
+        new.text = u'New'
+        form.submit()
+
+        browser.visit(content, view='edit')
+        tags = browser.find_field_by_text(u'Tags')
+        self.assertTupleEqual(('Bar', 'Baz', 'New'),
+                              tuple(tags.value))
