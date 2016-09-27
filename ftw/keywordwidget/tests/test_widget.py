@@ -2,6 +2,7 @@ from ftw.builder import Builder
 from ftw.builder import create
 from ftw.keywordwidget.tests import FunctionalTestCase
 from ftw.testbrowser import browsing
+import json
 import transaction
 
 
@@ -84,3 +85,14 @@ class TestKeywordWidget(FunctionalTestCase):
         tags = browser.find_field_by_text(u'Tags')
         self.assertTrue(browser.css('#' + tags.attrib['id'] + '_new'),
                         'Add new term field should BE there')
+
+    @browsing
+    def test_default_chosen_config_on_widget(self, browser):
+        content = create(Builder('sample content').titled(u'A content'))
+        browser.login().visit(content, view='edit')
+        tags = browser.find_field_by_text(u'Tags')
+
+        chosen_config = json.loads(tags.attrib['data-chosenconfig'])
+        self.assertListEqual(
+            ['width', 'placeholder_text_single', 'placeholder_text_multiple'],
+            chosen_config.keys())

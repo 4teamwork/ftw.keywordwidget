@@ -17,11 +17,13 @@ Primary Use-Case
 The widget provides the same functionality as the AT Keywordwidget with some benefits.
 
 Features from the AT Widget:
+
 - Protect adding new terms by a permission/role
 - Display all possible values
 - Add new terms
 
 Benefits:
+
 - Configurable Chosen JS widget
 - Sane defaults for the Widget
 - z3c.form Widget
@@ -35,6 +37,11 @@ There are several other z3c form widgets for plone 4.x, which provides a similar
 
 Further you can configure the chosen2 plugin as you wish.
 
+
+TODO
+----
+
+- Implement async option.
 
 
 Compatibility
