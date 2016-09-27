@@ -42,6 +42,7 @@ TODO
 ----
 
 - Implement async option.
+- Implement select2 tag option
 
 
 Compatibility
