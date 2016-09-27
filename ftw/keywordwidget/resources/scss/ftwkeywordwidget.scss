@@ -1,0 +1,17 @@
+
+// In Overlays with ftw.theming
+.overlay-open .select2-dropdown {
+  z-index: $zindex-overlay + $zindex-dropdown;
+}
+
+
+// Display vertical list of selected items
+.select2-container--default .select2-selection--multiple .select2-selection__choice {
+  float: none;
+  margin-right: 2em;
+  margin-bottom: 0em;
+}
+
+li.select2-search, li.select2-results__option {
+  margin-bottom: 0;
+}

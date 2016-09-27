@@ -4,6 +4,8 @@
     xmlns:five="http://namespaces.zope.org/five"
     xmlns:plone="http://namespaces.plone.org/plone"
     xmlns:browser="http://namespaces.zope.org/browser"
+    xmlns:theme="http://namespaces.zope.org/ftw.theming"
+    xmlns:zcml="http://namespaces.zope.org/zcml"
     i18n_domain="ftw.keywordwidget">
 
     <five:registerPackage package="." initialize=".initialize" />
@@ -14,6 +16,15 @@
     <include file="widget.zcml" />
 
     <browser:resourceDirectory name="ftw.keywordwidget" directory="resources" />
+
+    <configure zcml:condition="installed ftw.theming">
+        <include package="ftw.theming" file="meta.zcml" />
+
+        <theme:resources profile="ftw.keywordwidget:default" slot="addon">
+            <theme:scss file="resources/scss/ftwkeywordwidget.scss" />
+        </theme:resources>
+
+    </configure>
 
     <genericsetup:registerProfile
         name="default"

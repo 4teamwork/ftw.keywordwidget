@@ -82,7 +82,7 @@ class KeywordWidget(SelectWidget):
         default_config = {
             'placeholder': self.promptMessage,
             'width': '300px',
-            'allowClear': not self.field.required,
+            'allowClear': not self.field.required and not self.multiple,
             # 'tags': self.show_add_term_field()
         }
 
