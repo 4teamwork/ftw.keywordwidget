@@ -4,7 +4,7 @@
 Introduction
 ============
 
-``ftw.keywordwidget`` Provides three features:
+``ftw.keywordwidget`` provides three features:
 
 1. A widget, which loads select2 for better usability on single and multiselect fields.
 2. A ``ChoicePlus`` field, which allows new terms. This is prevents us from making a specific, complicated source, which allow new items.
@@ -41,7 +41,7 @@ Further you can configure the select2 plugin as you wish.
 TODO
 ----
 
-- Implement async option.
+- Implement async option
 - Implement select2 tag option
 
 
@@ -68,7 +68,7 @@ Usage / Integration
 ===================
 
 This Widget is not automatically applied to all possible select fields.
-The idea is that you integration it where needed by your self.
+The idea is that you integrate it where needed by your self.
 
 But for the primary Use-Case mentioned above, there is a behavior:
 
@@ -76,7 +76,7 @@ But for the primary Use-Case mentioned above, there is a behavior:
 2. Enable the ``ftw.keywordwidget.behavior.IKeywordCategorization`` behavior on your content type.
 
 For some other Use-Cases you can also enable the ``ftw.keywordwidget.behavior.IKeywordUseCases`` behavior.
-This enables a single and multiselect field.
+This enables a single and multi select field.
 
 Check behaviors.py for examples:
 

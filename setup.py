@@ -19,7 +19,7 @@ extras_require = {
 setup(
     name='ftw.keywordwidget',
     version=version,
-    description='ftw.keywordwidget',
+    description='A z3c form keyword widget using select2.',
     long_description=open('README.rst').read(),
 
     # Get more strings from
@@ -33,7 +33,7 @@ setup(
         'Topic :: Software Development :: Libraries :: Python Modules',
     ],
 
-    keywords='ftw keywordwidget',
+    keywords='ftw keyword widget',
     author='4teamwork AG',
     author_email='mailto:info@4teamwork.ch',
     maintainer=maintainer,
