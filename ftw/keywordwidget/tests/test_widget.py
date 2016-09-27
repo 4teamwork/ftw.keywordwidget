@@ -88,15 +88,15 @@ class TestKeywordWidget(FunctionalTestCase):
                         'Add new term field should BE there')
 
     @browsing
-    def test_default_chosen_config_on_widget(self, browser):
+    def test_default_select2_config_on_widget(self, browser):
         content = create(Builder('sample content').titled(u'A content'))
         browser.login().visit(content, view='edit')
         tags = browser.find_field_by_text(u'Tags')
 
-        chosen_config = json.loads(tags.attrib['data-chosenconfig'])
+        select2_config = json.loads(tags.attrib['data-select2config'])
         self.assertListEqual(
             ['width', 'placeholder_text_single', 'placeholder_text_multiple'],
-            chosen_config.keys())
+            select2_config.keys())
 
     @browsing
     def test_add_twice_the_same_term_in_fact_adds_only_one(self, browser):

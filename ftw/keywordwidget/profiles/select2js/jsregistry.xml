@@ -2,7 +2,7 @@
 <object name="portal_javascripts">
 
     <javascript
-        id="++resource++ftw.keywordwidget/chosen_v1.6.2/chosen.jquery.min.js"
+        id="++resource++ftw.keywordwidget/select2-4.0.3/dist/js/select2.min.js"
         enabled="True"
         insert-after="++resource++plone.app.jquery.js"
         authenticated="True"

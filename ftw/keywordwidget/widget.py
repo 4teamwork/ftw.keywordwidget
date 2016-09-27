@@ -67,9 +67,9 @@ class KeywordWidget(SelectWidget):
     def update(self):
         super(KeywordWidget, self).update()
 
+        self.update_multivalued_property()
         self.update_js_config()
         self.get_choice_field()
-        self.update_multivalued_property()
 
         if isinstance(self.choice_field, ChoicePlus):
             has_permission = api.user.has_permission(
@@ -80,9 +80,9 @@ class KeywordWidget(SelectWidget):
     def update_js_config(self):
         # Sane default config
         default_config = {
-            'placeholder_text_multiple': self.promptMessage,
-            'placeholder_text_single': self.promptMessage,
+            'placeholder': self.promptMessage,
             'width': '300px',
+            'allowClear': not self.field.required,
         }
 
         if self.js_config:
@@ -94,7 +94,7 @@ class KeywordWidget(SelectWidget):
         if not isinstance(self.field, schema.List):
             self.multiple = None
             self.size = 1
-            self.promptMessage = _('select a values ...')
+            self.promptMessage = _('select a value ...')
 
     def get_choice_field(self):
         is_list = isinstance(self.field, schema.List)

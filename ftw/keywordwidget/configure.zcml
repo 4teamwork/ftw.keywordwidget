@@ -23,9 +23,9 @@
         />
 
     <genericsetup:registerProfile
-        name="chosenjs"
-        title="ftw.keywordwidget chosen js integration"
-        directory="profiles/chosenjs"
+        name="select2js"
+        title="ftw.keywordwidget Install select2 jquery plugin"
+        directory="profiles/select2js"
         provides="Products.GenericSetup.interfaces.EXTENSION"
         />
 

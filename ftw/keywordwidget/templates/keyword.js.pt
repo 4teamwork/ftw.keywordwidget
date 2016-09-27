@@ -1,17 +1,17 @@
 $(function() {
 
-    function initChosen(){
+    function initSelect2(){
         var widget = $('#<tal:widgetid replace="view/id" />');
-        var config = widget.data("chosenconfig");
-        $(widget).chosen(config);
+        var config = widget.data("select2config");
+        $(widget).select2(config);
     }
 
 
     $(window).load(function(){
-      if ($().chosen === undefined) {
-          console.warn('You need to make sure, that chosen jquery plugin is loaded');
+      if ($().select2 === undefined) {
+          console.warn('You need to make sure, that select2 jquery plugin is loaded!');
       } else {
-          initChosen();
+          initSelect2();
       }
     });
 

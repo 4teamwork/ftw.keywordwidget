@@ -6,8 +6,8 @@ Introduction
 
 ``ftw.keywordwidget`` Provides three features:
 
-1. A widget, which loads chosen2 for better usability on single and multiselect fields.
-2. A ``ChoicePlus``, which allows new terms. This is prevents us from making a specific, complicated source, which allow new items.
+1. A widget, which loads select2 for better usability on single and multiselect fields.
+2. A ``ChoicePlus`` field, which allows new terms. This is prevents us from making a specific, complicated source, which allow new items.
 3. Render a additional ``New Entry`` textarea for new terms.
 
 
@@ -24,7 +24,7 @@ Features from the AT Widget:
 
 Benefits:
 
-- Configurable Chosen JS widget
+- Configurable select2 widget
 - Sane defaults for the Widget
 - z3c.form Widget
 - Based on the SelectWidget (No new converter, etc. needed)
@@ -35,7 +35,7 @@ There are several other z3c form widgets for plone 4.x, which provides a similar
 
 - They do not fit the primary Use-Case.
 
-Further you can configure the chosen2 plugin as you wish.
+Further you can configure the select2 plugin as you wish.
 
 
 TODO
