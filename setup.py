@@ -52,7 +52,6 @@ setup(
         'plone.app.vocabularies',
         'plone.api',
         'Plone',
-        'plone.app.contenttypes',
     ],
 
     tests_require=tests_require,
