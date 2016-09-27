@@ -63,10 +63,67 @@ Installation
         ftw.keywordwidget
 
 
-Usage
-=====
+Usage / Integration
+===================
 
-### USAGE ###
+This Widget is not automatically applied to all possible select fields.
+The idea is that you integration it where needed by your self.
+
+But for the primary Use-Case mentioned above, there is a behavior:
+
+1. Install the ``default`` profile and the ``select2`` profile if needed.
+2. Enable the ``ftw.keywordwidget.behavior.IKeywordCategorization`` behavior on your content type.
+
+For some other Use-Cases you can also enable the ``ftw.keywordwidget.behavior.IKeywordUseCases`` behavior.
+This enables a single and multiselect field.
+
+Check behaviors.py for examples:
+
+
+::
+
+    from ftw.keywordwidget.widget import KeywordFieldWidget
+
+
+    class IKeywordUseCases(model.Schema):
+
+        directives.widget('types', KeywordFieldWidget)
+        types = schema.List(
+            title=u'Types',
+            value_type=schema.Choice(
+                title=u"Multiple",
+                vocabulary='plone.app.vocabularies.PortalTypes',
+                ),
+            required=False,
+            missing_value=(),
+        )
+
+        directives.widget('types2', KeywordFieldWidget)
+        types2 = schema.Choice(
+            title=u'Single type',
+            vocabulary='plone.app.vocabularies.PortalTypes',
+            required=False,
+            missing_value=(),
+        )
+
+    alsoProvides(IKeywordUseCases, IFormFieldProvider)
+
+
+You can configure select2 as you wish by giving a ``js_config`` to widget factory.
+
+::
+
+    directives.widget('types',
+                      KeywordFieldWidget,
+                      js_config={'placeholder': 'Select something...'})
+
+
+The select2 4.0.3 JS Plugin is shipped with this package.
+But you it's not installed with the default profile, because you may already have a
+select2 JS installed for other purpose.
+If you need select2 you can install the ``ftw.keywordwidget Install select2 jquery plugin`` profile.
+
+
 
 Development
 ===========
