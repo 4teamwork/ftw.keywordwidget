@@ -28,6 +28,7 @@ Benefits:
 - Sane defaults for the Widget
 - z3c.form Widget
 - Based on the SelectWidget (No new converter, etc. needed)
+- Configurable "add new terms permission" per field/widget possible
 
 Demarcation
 -----------

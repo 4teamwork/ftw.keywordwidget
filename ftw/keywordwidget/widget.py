@@ -34,15 +34,19 @@ class KeywordWidget(SelectWidget):
     # KeywordWidget specific
     js_config = None
     choice_field = None
+    add_permission = None
 
     display_template = ViewPageTemplateFile('templates/keyword_display.pt')
     input_template = ViewPageTemplateFile('templates/keyword_input.pt')
     hidden_template = ViewPageTemplateFile('templates/keyword_hidden.pt')
     js_template = ViewPageTemplateFile('templates/keyword.js.pt')
 
-    def __init__(self, request, js_config=None):
+    def __init__(self, request, js_config=None, add_permission=None):
         self.request = request
         self.js_config = js_config
+
+        self.add_permission = (add_permission or
+                               'ftw.keywordwidget: Add new term')
 
     def render(self):
         if self.mode == INPUT_MODE:
@@ -75,7 +79,7 @@ class KeywordWidget(SelectWidget):
 
         if isinstance(self.choice_field, ChoicePlus):
             has_permission = api.user.has_permission(
-                'ftw.keywordwidget: Add new term',
+                self.add_permission,
                 obj=self.context)
             self.field.value_type.allow_new = has_permission
 

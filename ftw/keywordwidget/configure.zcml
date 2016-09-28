@@ -16,6 +16,7 @@
     <include package="plone.app.vocabularies" />
 
     <include file="permission.zcml" />
+    <include file="lawgiver.zcml" zcml:condition="installed ftw.lawgiver" />
     <include file="widget.zcml" />
 
     <browser:resourceDirectory name="ftw.keywordwidget" directory="resources" />
