@@ -1,4 +1,4 @@
-$(function() {
+    $(function() {
 
     function initSelect2(widget){
         var config = widget.data("select2config");
@@ -24,7 +24,7 @@ $(function() {
       }
     });
 
-    $(document).on("onLoad", ".overlay", function() {
+    $(document).on("onLoad OverlayContentReloaded", ".overlay", function() {
       $('.keyword-widget:visible').each(function(indes, widget){
         ftwKeywordWidgetInitSelect2($(widget));
       });
