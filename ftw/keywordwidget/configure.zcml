@@ -6,9 +6,12 @@
     xmlns:browser="http://namespaces.zope.org/browser"
     xmlns:theme="http://namespaces.zope.org/ftw.theming"
     xmlns:zcml="http://namespaces.zope.org/zcml"
+    xmlns:i18n="http://namespaces.zope.org/i18n"
     i18n_domain="ftw.keywordwidget">
 
     <five:registerPackage package="." initialize=".initialize" />
+
+    <i18n:registerTranslations directory="locales" />
 
     <include package="plone.app.vocabularies" />
 

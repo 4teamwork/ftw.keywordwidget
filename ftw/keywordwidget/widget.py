@@ -12,6 +12,7 @@ from z3c.form.interfaces import INPUT_MODE
 from z3c.form.interfaces import NOVALUE
 from z3c.form.widget import FieldWidget
 from zope import schema
+from zope.i18n import translate
 from zope.interface import implementer
 from zope.schema.vocabulary import SimpleTerm
 from zope.schema.vocabulary import SimpleVocabulary
@@ -26,6 +27,7 @@ class KeywordWidget(SelectWidget):
 
     noValueMessage = _('no value')
     promptMessage = _('select some values ...')
+    promptNoresultFound = _('No result found')
     multiple = 'multiple'
     size = 10
 
@@ -80,7 +82,9 @@ class KeywordWidget(SelectWidget):
     def update_js_config(self):
         # Sane default config
         default_config = {
-            'placeholder': self.promptMessage,
+            'placeholder': translate(self.promptMessage, context=self.request),
+            'noResultFound': translate(self.promptNoresultFound,
+                                       context=self.request),
             'width': '300px',
             'allowClear': not self.field.required and not self.multiple,
             # 'tags': self.show_add_term_field()

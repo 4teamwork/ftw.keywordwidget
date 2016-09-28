@@ -2,6 +2,14 @@ $(function() {
 
     function initSelect2(widget){
         var config = widget.data("select2config");
+
+        // Update language from Backend
+        config.language = {
+          noResults: function(){
+            return config.noResultFound;
+          }
+        };
+
         $(widget).select2(config);
     }
 
