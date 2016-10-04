@@ -5,7 +5,8 @@ Changelog
 1.0.3 (unreleased)
 ------------------
 
-- Nothing changed yet.
+- Disable compression of the already minified "select2.min.js".
+  [mbaechtold]
 
 
 1.0.2 (2016-09-28)
