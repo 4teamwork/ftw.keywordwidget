@@ -7,6 +7,7 @@
     xmlns:theme="http://namespaces.zope.org/ftw.theming"
     xmlns:zcml="http://namespaces.zope.org/zcml"
     xmlns:i18n="http://namespaces.zope.org/i18n"
+    xmlns:upgrade-step="http://namespaces.zope.org/ftw.upgrade"
     i18n_domain="ftw.keywordwidget">
 
     <five:registerPackage package="." initialize=".initialize" />
@@ -65,6 +66,16 @@
         description="Some demo Use-Cases"
         provides=".behavior.IKeywordUseCases"
         for="plone.dexterity.interfaces.IDexterityContent"
+        />
+
+    <include package="ftw.upgrade" file="meta.zcml" />
+    <upgrade-step:directory
+        profile="ftw.keywordwidget:default"
+        directory="./upgrades/default"
+        />
+    <upgrade-step:directory
+        profile="ftw.keywordwidget:select2js"
+        directory="./upgrades/select2js"
         />
 
 </configure>
