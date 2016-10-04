@@ -2,7 +2,7 @@ Changelog
 =========
 
 
-1.0.3 (unreleased)
+1.0.3 (2016-10-04)
 ------------------
 
 - Disable compression of the already minified "select2.min.js".
