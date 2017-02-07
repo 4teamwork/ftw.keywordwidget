@@ -61,3 +61,26 @@ class TestKeywordWidget(FunctionalTestCase):
         browser.login().visit(content, view='edit')
         types = browser.find_field_by_text(u'Single type')
         self.assertEquals('SampleContent', types.value)
+
+    @browsing
+    def test_choose_from_tuple_with_choice_widget(self, browser):
+        content = create(Builder('sample content').titled(u'A content'))
+        browser.login().visit(content, view='edit')
+        types = browser.find_field_by_text(u'Types3')
+
+        self.assertTrue(types)
+        # No add new terms field
+        self.assertFalse(browser.css('#' + types.attrib['id'] + '_new'))
+
+        # Some Possible options
+        self.assertIn('SampleContent',
+                      types.options_labels)
+        self.assertIn('File',
+                      types.options_labels)
+        self.assertIn('Link',
+                      types.options_labels)
+
+        browser.fill({'Types3': ('File', 'SampleContent')}).submit()
+        browser.login().visit(content, view='edit')
+        types = browser.find_field_by_text(u'Types3')
+        self.assertEquals(('File', 'SampleContent'), tuple(types.value))

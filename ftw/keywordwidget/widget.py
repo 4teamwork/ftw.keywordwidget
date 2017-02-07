@@ -19,6 +19,15 @@ from zope.schema.vocabulary import SimpleVocabulary
 import json
 
 
+def is_list_type_field(field):
+    if isinstance(field, schema.List):
+        return True
+    elif isinstance(field, schema.Tuple):
+        return True
+    else:
+        return False
+
+
 class KeywordWidget(SelectWidget):
 
     klass = u'keyword-widget'
@@ -100,13 +109,13 @@ class KeywordWidget(SelectWidget):
         self.js_config = json.dumps(default_config)
 
     def update_multivalued_property(self):
-        if not isinstance(self.field, schema.List):
+        if not is_list_type_field(self.field):
             self.multiple = None
             self.size = 1
             self.promptMessage = _('select a value ...')
 
     def get_choice_field(self):
-        is_list = isinstance(self.field, schema.List)
+        is_list = is_list_type_field(self.field)
         is_choice = isinstance(self.field, schema.Choice)
 
         if is_list and isinstance(self.field.value_type, schema.Choice):

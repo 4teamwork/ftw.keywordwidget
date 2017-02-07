@@ -5,7 +5,8 @@ Changelog
 1.0.4 (unreleased)
 ------------------
 
-- Nothing changed yet.
+- Add support for `schema.Tuple` fields.
+  [mathias.leimgruber]
 
 
 1.0.3 (2016-10-04)
