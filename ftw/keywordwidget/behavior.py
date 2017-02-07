@@ -72,4 +72,16 @@ class IKeywordUseCases(model.Schema):
         missing_value=(),
     )
 
+    directives.widget('types3', KeywordFieldWidget)
+    types3 = schema.Tuple(
+        title=u'Types3',
+        value_type=schema.Choice(
+            title=u"Multiple",
+            vocabulary='plone.app.vocabularies.PortalTypes',
+            ),
+        required=False,
+        missing_value=(),
+    )
+
+
 alsoProvides(IKeywordUseCases, IFormFieldProvider)

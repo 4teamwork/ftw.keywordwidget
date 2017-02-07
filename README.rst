@@ -10,6 +10,8 @@ Introduction
 2. A ``ChoicePlus`` field, which allows new terms. This is prevents us from making a specific, complicated source, which allow new items.
 3. Render a additional ``New Entry`` textarea for new terms.
 
+The widget supports schema.Choice, schema.Tuple and schema.List fields.
+
 
 Primary Use-Case
 ----------------
