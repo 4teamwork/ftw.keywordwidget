@@ -4,7 +4,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
-"POT-Creation-Date: 2016-09-28 09:27+0000\n"
+"POT-Creation-Date: 2017-02-08 16:05+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI +ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -14,35 +14,39 @@ msgstr ""
 "Plural-Forms: nplurals=1; plural=0\n"
 "Preferred-Encodings: utf-8 latin1\n"
 
-#: ./ftw/keywordwidget/configure.zcml:60
+#: ./ftw/keywordwidget/configure.zcml:62
 msgid "Adds keywords/tags/subjects"
 msgstr ""
 
-#: ./ftw/keywordwidget/configure.zcml:60
+#: ./ftw/keywordwidget/configure.zcml:62
 msgid "Categorization with keywordwidget"
 msgstr ""
 
-#: ./ftw/keywordwidget/widget.py:30
+#: ./ftw/keywordwidget/widget.py:40
+msgid "New"
+msgstr "Neu"
+
+#: ./ftw/keywordwidget/widget.py:39
 msgid "No result found"
 msgstr "Kein Resultat gefunden"
 
-#: ./ftw/keywordwidget/configure.zcml:67
+#: ./ftw/keywordwidget/configure.zcml:69
 msgid "Some demo Use-Cases"
 msgstr ""
 
-#: ./ftw/keywordwidget/configure.zcml:67
+#: ./ftw/keywordwidget/configure.zcml:69
 msgid "Test behavior for keywordwidget Use-Cases"
 msgstr ""
 
-#: ./ftw/keywordwidget/configure.zcml:52
+#: ./ftw/keywordwidget/configure.zcml:54
 msgid "ftw.keywordwidget : uninstall"
 msgstr ""
 
-#: ./ftw/keywordwidget/configure.zcml:44
+#: ./ftw/keywordwidget/configure.zcml:46
 msgid "ftw.keywordwidget Install select2 jquery plugin"
 msgstr ""
 
-#: ./ftw/keywordwidget/configure.zcml:37
+#: ./ftw/keywordwidget/configure.zcml:39
 msgid "ftw.keywordwidget default"
 msgstr ""
 
@@ -51,15 +55,15 @@ msgstr ""
 msgid "label_new_tokens"
 msgstr "Neuer Eintrag (Pro Zeile wird ein neuer Eintrag erstellt)"
 
-#: ./ftw/keywordwidget/widget.py:28
+#: ./ftw/keywordwidget/widget.py:37
 msgid "no value"
 msgstr "Kein Wert"
 
-#: ./ftw/keywordwidget/widget.py:102
+#: ./ftw/keywordwidget/widget.py:124
 msgid "select a value ..."
 msgstr "Einen Eintrag auswählen..."
 
-#: ./ftw/keywordwidget/widget.py:29
+#: ./ftw/keywordwidget/widget.py:38
 msgid "select some values ..."
 msgstr "Mehrere Einträge auswählen ..."
 

@@ -37,6 +37,7 @@ class KeywordWidget(SelectWidget):
     noValueMessage = _('no value')
     promptMessage = _('select some values ...')
     promptNoresultFound = _('No result found')
+    labelNew = _('New')
     multiple = 'multiple'
     size = 10
 
@@ -95,13 +96,21 @@ class KeywordWidget(SelectWidget):
     def update_js_config(self):
         # Sane default config
         default_config = {
-            'placeholder': translate(self.promptMessage, context=self.request),
-            'noResultFound': translate(self.promptNoresultFound,
-                                       context=self.request),
+            'i18n': {
+                'label_placeholder': translate(self.promptMessage,
+                                               context=self.request),
+                'label_no_result': translate(self.promptNoresultFound,
+                                             context=self.request),
+                'label_new': translate(self.labelNew,
+                                             context=self.request)
+            },
             'width': '300px',
             'allowClear': not self.field.required and not self.multiple,
-            # 'tags': self.show_add_term_field()
         }
+
+        if self.show_add_term_field():
+            default_config['tags'] = True
+            default_config['tokenSeparators'] = [',']
 
         if self.js_config:
             default_config.update(self.js_config)
@@ -151,7 +160,11 @@ class KeywordWidget(SelectWidget):
             if values is default:
                 values = []
             else:
-                values = list(values)
+                # We need to remove the new added keywords from extracted
+                # values, since they need to be processed separately.
+                # This happens if the select2 plugin has the tag option
+                # activated
+                values = [val for val in values if val not in new_values]
 
             for new_value in new_values:
                 # The new values needs to fit the token value in the
@@ -173,7 +186,7 @@ class KeywordWidget(SelectWidget):
 
                 # Vocabulary term tokens *must* be 7 bit values, titles *must*
                 # be unicode.
-                # Value needs to be a utf-8 str, hell I don't know why.
+                # Value needs to be a utf-8 str, only hell knows why.
                 # IMHO this should depend on the source. We're gonna have
                 # trouble with this in the future.
                 new_token = new_value

@@ -5,7 +5,13 @@ Changelog
 1.0.5 (unreleased)
 ------------------
 
-- Nothing changed yet.
+- Add i18n helper for translations.
+  [mathias.leimgruber]
+
+- Implement select2 tag option for adding new keywords.
+  This hides the new keyword textarea.
+  Warning: this is the new default, you can disable it by passing `tags: false`.
+  [mathias.leimgruber]
 
 
 1.0.4 (2017-02-07)

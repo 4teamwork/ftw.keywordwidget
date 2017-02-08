@@ -15,3 +15,21 @@
 li.select2-search, li.select2-results__option {
   margin-bottom: 0;
 }
+
+.select2tags .newEntries {
+  display: none;
+}
+
+.select2-results {
+  .newTagHint {
+    display: inline-block;
+    margin-left: 0.5em;
+    background-color: rgb(32, 191, 32);
+    border-radius: 4px;
+    padding: 0px 5px;
+    font-size: 12px;
+    position: relative;
+    vertical-align: top;
+    color: white;
+  }
+} 

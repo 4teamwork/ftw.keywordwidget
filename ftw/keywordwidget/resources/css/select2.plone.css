@@ -1,3 +1,19 @@
 .select2-results ul li{
   display: block;
 }
+
+.select2tags .newEntries {
+  display: none;
+}
+
+.select2-results .newTagHint {
+  display: inline-block;
+  margin-left: 0.5em;
+  background-color: rgb(32, 191, 32);
+  border-radius: 4px;
+  padding: 0px 5px;
+  font-size: 12px;
+  position: relative;
+  vertical-align: top;
+  color: white;
+} 

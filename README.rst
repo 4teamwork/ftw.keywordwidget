@@ -9,6 +9,7 @@ Introduction
 1. A widget, which loads select2 for better usability on single and multiselect fields.
 2. A ``ChoicePlus`` field, which allows new terms. This is prevents us from making a specific, complicated source, which allow new items.
 3. Render a additional ``New Entry`` textarea for new terms.
+4. Uses tags feature of select 2 to add new keywords.
 
 The widget supports schema.Choice, schema.Tuple and schema.List fields.
 
@@ -45,7 +46,6 @@ TODO
 ----
 
 - Implement async option
-- Implement select2 tag option
 
 
 Compatibility
