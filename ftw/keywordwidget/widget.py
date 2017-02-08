@@ -37,6 +37,7 @@ class KeywordWidget(SelectWidget):
     noValueMessage = _('no value')
     promptMessage = _('select some values ...')
     promptNoresultFound = _('No result found')
+    labelNew = _('New')
     multiple = 'multiple'
     size = 10
 
@@ -95,11 +96,16 @@ class KeywordWidget(SelectWidget):
     def update_js_config(self):
         # Sane default config
         default_config = {
-            'placeholder': translate(self.promptMessage, context=self.request),
-            'noResultFound': translate(self.promptNoresultFound,
-                                       context=self.request),
+            'i18n': {
+                'label_placeholder': translate(self.promptMessage,
+                                               context=self.request),
+                'label_no_result': translate(self.promptNoresultFound,
+                                             context=self.request),
+                'label_new': translate(self.labelNew,
+                                             context=self.request)
+            },
             'width': '300px',
-            'allowClear': not self.field.required and not self.multiple,            
+            'allowClear': not self.field.required and not self.multiple,
         }
 
         if self.show_add_term_field():
