@@ -95,7 +95,8 @@ class TestKeywordWidget(FunctionalTestCase):
 
         select2_config = json.loads(tags.attrib['data-select2config'])
         self.assertListEqual(
-            [u'allowClear', u'width', u'noResultFound', u'placeholder'],
+            [u'allowClear', u'tokenSeparators', u'tags', u'noResultFound',
+             u'width', u'placeholder'],
             select2_config.keys())
 
     @browsing
