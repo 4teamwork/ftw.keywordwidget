@@ -80,6 +80,22 @@ class KeywordWidget(SelectWidget):
                 new_values.add(cleanedup_value)
         return list(new_values)
 
+    def cleanup_request(self):
+        """
+        If the tags feature is enabled the new term is also in a
+        "not normalized" variation in the request. We need to remove it, thus
+        the super call of the sequence widget will still work.
+        Otherwise it does not recognize all terms in the request as valid term.
+        """
+        values = self.request.get(self.name, [])
+        if not values:
+            return
+
+        for new_value in self.get_new_values_from_request():
+            if new_value in values:
+                values.remove(new_value)
+        self.request.set(self.name, values)
+
     def update(self):
         super(KeywordWidget, self).update()
 
@@ -102,7 +118,7 @@ class KeywordWidget(SelectWidget):
                 'label_no_result': translate(self.promptNoresultFound,
                                              context=self.request),
                 'label_new': translate(self.labelNew,
-                                             context=self.request)
+                                       context=self.request)
             },
             'width': '300px',
             'allowClear': not self.field.required and not self.multiple,
@@ -144,6 +160,9 @@ class KeywordWidget(SelectWidget):
     def extract(self, default=NOVALUE):
         """See z3c.form.interfaces.IWidget.
         """
+
+        self.cleanup_request()
+
         values = super(KeywordWidget, self).extract(default=default)
 
         if not self.show_add_term_field():
