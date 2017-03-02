@@ -2,7 +2,7 @@ Changelog
 =========
 
 
-1.1.2 (unreleased)
+1.1.2 (2017-03-02)
 ------------------
 
 - Downgrade select2 from 4.0.3 to 4.0.2 to fix an ie11 issue.
