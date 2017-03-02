@@ -1,7 +1,9 @@
 from ftw.builder import Builder
 from ftw.builder import create
 from ftw.keywordwidget.tests import FunctionalTestCase
+from ftw.keywordwidget.widget import KeywordFieldWidget
 from ftw.testbrowser import browsing
+from zope import schema
 import json
 import transaction
 
@@ -166,3 +168,19 @@ class TestKeywordWidget(FunctionalTestCase):
         tags = browser.find_field_by_text(u'Tags')
         self.assertTupleEqual(('New Item 2', 'NewItem1', 'N=C3=B6i 3'),
                               tuple(tags.value))
+
+    def test_add_only_one_term_will_not_raise_an_error_after_cleanup_request(self):
+        """The widget will not be used trough the browsertest. So we have to do
+        it manually with a unittest.
+        """
+        field = schema.List(title=u"Subjects")
+        widget = KeywordFieldWidget(field, self.request)
+
+        widget.name = "Subjects"
+        self.request['Subjects_new'] = u"Foo Bar"
+        self.request['Subjects'] = u"Foo Bar"
+
+        widget.cleanup_request()
+
+        self.assertEqual([], self.request['Subjects'])
+        self.assertEqual('Foo Bar', self.request['Subjects_new'])
