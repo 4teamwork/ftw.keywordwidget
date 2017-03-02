@@ -5,8 +5,9 @@ Changelog
 1.1.2 (unreleased)
 ------------------
 
-- Nothing changed yet.
-
+- Move select2 files into a folder without a version postfix. This makes it much
+  easier to upgrade/downgrade the select2 version without upgradesteps.
+  [elioschmutz]
 
 1.1.1 (2017-02-22)
 ------------------
