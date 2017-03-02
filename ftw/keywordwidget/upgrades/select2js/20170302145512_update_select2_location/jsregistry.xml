@@ -1,0 +1,16 @@
+<?xml version="1.0"?>
+<object name="portal_javascripts">
+
+    <javascript
+        id="++resource++ftw.keywordwidget/select2-4.0.3/dist/js/select2.min.js"
+        remove="True"
+        />
+
+    <javascript
+        id="++resource++ftw.keywordwidget/select2/dist/js/select2.min.js"
+        enabled="True"
+        insert-after="++resource++plone.app.jquery.js"
+        authenticated="True"
+        compression="none"
+        />
+</object>
