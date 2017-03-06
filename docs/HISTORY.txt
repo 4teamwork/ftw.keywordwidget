@@ -5,6 +5,8 @@ Changelog
 1.1.3 (unreleased)
 ------------------
 
+- Don't drop user-input when a form including the widget has validation errors. [deiferni]
+
 - Fix an issue if the user only inserts one keyword into the widget.
   [elioschmutz]
 

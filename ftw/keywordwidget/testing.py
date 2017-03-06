@@ -23,6 +23,11 @@ class FtwLayer(PloneSandboxLayer):
 
         z2.installProduct(app, 'ftw.keywordwidget')
 
+        import ftw.keywordwidget.tests
+        xmlconfig.file('tests.zcml',
+                       ftw.keywordwidget.tests,
+                       context=configurationContext)
+
     def setUpPloneSite(self, portal):
         applyProfile(portal, 'ftw.keywordwidget:default')
 

@@ -102,10 +102,11 @@ class KeywordWidget(SelectWidget):
         self.request.set(self.name, values)
 
     def update(self):
+        self.get_choice_field()
+
         super(KeywordWidget, self).update()
 
         self.update_multivalued_property()
-        self.get_choice_field()
         self.update_js_config()
 
         if isinstance(self.choice_field, ChoicePlus):
@@ -165,7 +166,6 @@ class KeywordWidget(SelectWidget):
     def extract(self, default=NOVALUE):
         """See z3c.form.interfaces.IWidget.
         """
-
         self.cleanup_request()
 
         values = super(KeywordWidget, self).extract(default=default)
