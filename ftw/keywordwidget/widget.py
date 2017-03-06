@@ -88,6 +88,11 @@ class KeywordWidget(SelectWidget):
         Otherwise it does not recognize all terms in the request as valid term.
         """
         values = self.request.get(self.name, [])
+        if not isinstance(values, list):
+            # This case happens if the user tries to add only one new keyword.
+            # We will receive a string instead a list.
+            values = [values]
+
         if not values:
             return
 

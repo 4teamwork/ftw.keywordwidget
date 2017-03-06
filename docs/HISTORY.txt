@@ -5,7 +5,8 @@ Changelog
 1.1.3 (unreleased)
 ------------------
 
-- Nothing changed yet.
+- Fix an issue if the user only inserts one keyword into the widget.
+  [elioschmutz]
 
 
 1.1.2 (2017-03-02)
