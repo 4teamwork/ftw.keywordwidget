@@ -2,7 +2,7 @@
 <object name="portal_css">
 
   <stylesheet
-      id="++resource++ftw.keywordwidget/select2-4.0.3/dist/css/select2.min.css"
+      id="++resource++ftw.keywordwidget/select2/dist/css/select2.min.css"
       title=""
       cacheable="True"
       compression="none"
