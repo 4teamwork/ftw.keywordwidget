@@ -8,6 +8,8 @@ Changelog
 - Fix an issue if the user only inserts one keyword into the widget.
   [elioschmutz]
 
+- Fix selec2js profile path to select2 resources. [deiferni]
+
 
 1.1.2 (2017-03-02)
 ------------------
