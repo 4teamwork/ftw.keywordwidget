@@ -1,0 +1,12 @@
+<configure
+    xmlns="http://namespaces.zope.org/zope"
+    xmlns:plone="http://namespaces.plone.org/plone"
+    i18n_domain="ftw.keywordwidget.tests">
+
+  <plone:behavior
+      title="Test-behavior that includes required fiels."
+      provides=".behavior.IHaveARequiredTextField"
+      for="plone.dexterity.interfaces.IDexterityContent"
+      />
+
+</configure>

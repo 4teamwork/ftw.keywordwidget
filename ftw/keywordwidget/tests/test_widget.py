@@ -3,9 +3,40 @@ from ftw.builder import create
 from ftw.keywordwidget.tests import FunctionalTestCase
 from ftw.keywordwidget.widget import KeywordFieldWidget
 from ftw.testbrowser import browsing
+from ftw.testbrowser.pages.statusmessages import error_messages
 from zope import schema
 import json
 import transaction
+
+
+class TestKeywordWidgetWithRequiredFields(FunctionalTestCase):
+
+    def setUp(self):
+        super(TestKeywordWidgetWithRequiredFields, self).setUp()
+        self.grant('Manager')
+        additional_behaviors = [
+            'ftw.keywordwidget.behavior.IKeywordCategorization',
+            'ftw.keywordwidget.tests.behavior.IHaveARequiredTextField',
+        ]
+        self.setup_fti(additional_behaviors=additional_behaviors)
+
+    @browsing
+    def test_validation_errors_preserve_user_input(self, browser):
+        browser.login().open(view='++add++SampleContent')
+        browser.fill(
+            {'form.widgets.IKeywordCategorization.subjects_new': 'foo'}
+        ).submit()
+
+        self.assertEqual(['There were some errors.'], error_messages())
+
+        new_field = browser.find(
+            'form.widgets.IKeywordCategorization.subjects_new')
+        self.assertEqual('foo', new_field.value)
+
+        tags = browser.find_field_by_text(u'Tags')
+        self.assertEqual(['foo'], tags.options_labels)
+        self.assertEqual(['foo'], list(tags.node.value),
+                         'expected "foo" to be selected in the widget')
 
 
 class TestKeywordWidget(FunctionalTestCase):
