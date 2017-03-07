@@ -199,10 +199,7 @@ class KeywordWidget(SelectWidget):
             for new_value in new_values:
                 # The new values needs to fit the token value in the
                 # vocabulary
-                if isinstance(new_value, unicode):
-                    new_value = new_value.encode('utf-8')
-                new_value = b2a_qp(new_value)
-                values.append(new_value)
+                values.append(as_keyword_token(new_value))
 
             return values and list(set(values)) or default
 
@@ -213,16 +210,14 @@ class KeywordWidget(SelectWidget):
 
         for new_value in self.get_new_values_from_request():
             if new_value not in simple_vocbaulary.by_value:
-
                 # Vocabulary term tokens *must* be 7 bit values, titles *must*
                 # be unicode.
                 # Value needs to be a utf-8 str, only hell knows why.
                 # IMHO this should depend on the source. We're gonna have
                 # trouble with this in the future.
-                new_token = new_value
+                new_token = as_keyword_token(new_value)
                 if isinstance(new_value, unicode):
-                    new_value = new_token = new_value.encode('utf-8')
-                new_token = b2a_qp(new_token)
+                    new_value = new_value.encode('utf-8')
                 terms.append(
                     SimpleTerm(new_value, new_token, safe_unicode(new_value)))
 
