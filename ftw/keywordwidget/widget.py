@@ -195,8 +195,8 @@ class KeywordWidget(SelectWidget):
                 # vocabulary
                 if isinstance(new_value, unicode):
                     new_value = new_value.encode('utf-8')
-                    new_value = b2a_qp(new_value)
-                    values.append(new_value)
+                new_value = b2a_qp(new_value)
+                values.append(new_value)
 
             return values and values or default
 
