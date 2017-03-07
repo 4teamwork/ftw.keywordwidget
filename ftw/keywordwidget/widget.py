@@ -175,33 +175,19 @@ class KeywordWidget(SelectWidget):
         self.cleanup_request()
 
         values = super(KeywordWidget, self).extract(default=default)
-
-        if not self.show_add_term_field():
+        if values is NOVALUE or not self.show_add_term_field():
             return values
 
-        else:
-            # Adding new keywords, which are not in the vocab/source
-            if (self.name + '_new' not in self.request and
-                    self.name + '-empty-marker' in self.request):
-                return []
+        # Adding new keywords, which are not in the vocab/source
+        if (self.name + '_new' not in self.request and
+                self.name + '-empty-marker' in self.request):
+            return []
 
-            new_values = self.get_new_values_from_request()
+        tokens = set(values)
+        for new_value in self.get_new_values_from_request():
+            tokens.add(as_keyword_token(new_value))
 
-            if values is default:
-                values = []
-            else:
-                # We need to remove the new added keywords from extracted
-                # values, since they need to be processed separately.
-                # This happens if the select2 plugin has the tag option
-                # activated
-                values = [val for val in values if val not in new_values]
-
-            for new_value in new_values:
-                # The new values needs to fit the token value in the
-                # vocabulary
-                values.append(as_keyword_token(new_value))
-
-            return values and list(set(values)) or default
+        return list(tokens) if tokens else default
 
     def updateTerms(self):
         super(KeywordWidget, self).updateTerms()
