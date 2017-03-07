@@ -1,9 +1,11 @@
 from ftw.builder import Builder
 from ftw.builder import create
 from ftw.keywordwidget.tests import FunctionalTestCase
+from ftw.keywordwidget.widget import as_keyword_token
 from ftw.keywordwidget.widget import KeywordFieldWidget
 from ftw.testbrowser import browsing
 from ftw.testbrowser.pages.statusmessages import error_messages
+from ftw.testbrowser.pages.statusmessages import info_messages
 from zope import schema
 import json
 import transaction
@@ -37,6 +39,26 @@ class TestKeywordWidgetWithRequiredFields(FunctionalTestCase):
         self.assertEqual(['foo'], tags.options_labels)
         self.assertEqual(['foo'], list(tags.node.value),
                          'expected "foo" to be selected in the widget')
+
+    @browsing
+    def test_no_duplicates_after_submitting_after_a_validation_error(self, browser):
+        browser.login().open(view='++add++SampleContent')
+
+        browser.fill({
+            'form.widgets.IKeywordCategorization.subjects_new': u'N\xe4h'}
+        ).submit()
+        self.assertEqual(['There were some errors.'], error_messages())
+
+        # the second request will already contain the newly added selected
+        # value from the first request (i.e. it's token).
+        browser.fill({
+            'form.widgets.IKeywordCategorization.subjects': as_keyword_token(
+                u'N\xe4h'),
+            'form.widgets.IKeywordCategorization.subjects_new': u'N\xe4h',
+            'Title': 'jajaja...'}).submit()
+        self.assertEqual(['Item created'], info_messages())
+
+        self.assertEqual(['N\xc3\xa4h'], browser.context.subject)
 
 
 class TestKeywordWidget(FunctionalTestCase):

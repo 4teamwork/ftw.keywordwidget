@@ -28,6 +28,12 @@ def is_list_type_field(field):
         return False
 
 
+def as_keyword_token(value):
+    if isinstance(value, unicode):
+        value = value.encode('utf-8')
+    return b2a_qp(value)
+
+
 class KeywordWidget(SelectWidget):
 
     klass = u'keyword-widget'
@@ -198,7 +204,7 @@ class KeywordWidget(SelectWidget):
                 new_value = b2a_qp(new_value)
                 values.append(new_value)
 
-            return values and values or default
+            return values and list(set(values)) or default
 
     def updateTerms(self):
         super(KeywordWidget, self).updateTerms()
