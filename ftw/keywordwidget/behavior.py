@@ -83,5 +83,17 @@ class IKeywordUseCases(model.Schema):
         missing_value=(),
     )
 
+    directives.widget('unicode_keywords',
+                      KeywordFieldWidget,
+                      new_terms_as_unicode=True)
+    unicode_keywords = schema.Tuple(
+        title=u'UnicodeTags',
+        value_type=ChoicePlus(
+            title=u"Multiple",
+            vocabulary='ftw.keywordwidget.UnicodeKeywordVocabulary',
+            ),
+        required=False,
+        missing_value=(),
+    )
 
 alsoProvides(IKeywordUseCases, IFormFieldProvider)
