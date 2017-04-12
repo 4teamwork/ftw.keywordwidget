@@ -1,12 +1,17 @@
 from binascii import b2a_qp
-from plone.dexterity.utils import safe_unicode
-from plone.dexterity.utils import safe_utf8
 from Products.CMFCore.utils import getToolByName
+from Products.CMFPlone.utils import safe_unicode
 from zope.component.hooks import getSite
 from zope.interface import implementer
 from zope.schema.interfaces import IVocabularyFactory
 from zope.schema.vocabulary import SimpleTerm
 from zope.schema.vocabulary import SimpleVocabulary
+
+
+def safe_utf8(text):
+    if isinstance(text, unicode):
+        text = text.encode('utf8')
+    return text
 
 
 @implementer(IVocabularyFactory)
@@ -25,7 +30,6 @@ class UnicodeKeywordsVocabulary(object):
             self.index_name = index_name
 
     def __call__(self, context):
-
         site = getSite()
         self.catalog = getToolByName(site, "portal_catalog", None)
         if self.catalog is None:
