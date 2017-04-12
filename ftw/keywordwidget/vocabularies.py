@@ -34,15 +34,20 @@ class UnicodeKeywordsVocabulary(object):
         self.catalog = getToolByName(site, "portal_catalog", None)
         if self.catalog is None:
             return SimpleVocabulary([])
-        index = self.catalog._catalog.getIndex(self.index_name)
 
-        # Vocabulary term tokens *must* be 7 bit values, titles *must* be
-        # unicode
-        items = [
-            SimpleTerm(safe_unicode(i), b2a_qp(safe_utf8(i)), safe_unicode(i))
-            for i in index._index
-        ]
-        return SimpleVocabulary(items)
+        if self.index_name in self.catalog._catalog.indexes:
+            index = self.catalog._catalog.getIndex(self.index_name)
+            # Vocabulary term tokens *must* be 7 bit values, titles *must* be
+            # unicode
+            items = [
+                SimpleTerm(safe_unicode(i),
+                           b2a_qp(safe_utf8(i)),
+                           safe_unicode(i))
+                for i in index._index
+            ]
+            return SimpleVocabulary(items)
 
+        else:
+            return SimpleVocabulary([])
 
 UnicodeKeywordsVocabularyFactory = UnicodeKeywordsVocabulary()
