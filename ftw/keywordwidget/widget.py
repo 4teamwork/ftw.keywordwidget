@@ -1,6 +1,7 @@
 from binascii import b2a_qp
 from ftw.keywordwidget import _
 from ftw.keywordwidget.field import ChoicePlus
+from ftw.keywordwidget.utils import safe_utf8
 from plone import api
 from Products.CMFPlone.utils import safe_unicode
 from Products.Five.browser.pagetemplatefile import ViewPageTemplateFile
@@ -51,15 +52,18 @@ class KeywordWidget(SelectWidget):
     js_config = None
     choice_field = None
     add_permission = None
+    new_terms_as_unicode = None
 
     display_template = ViewPageTemplateFile('templates/keyword_display.pt')
     input_template = ViewPageTemplateFile('templates/keyword_input.pt')
     hidden_template = ViewPageTemplateFile('templates/keyword_hidden.pt')
     js_template = ViewPageTemplateFile('templates/keyword.js.pt')
 
-    def __init__(self, request, js_config=None, add_permission=None):
+    def __init__(self, request, js_config=None, add_permission=None,
+                 new_terms_as_unicode=False):
         self.request = request
         self.js_config = js_config
+        self.new_terms_as_unicode = new_terms_as_unicode
 
         self.add_permission = (add_permission or
                                'ftw.keywordwidget: Add new term')
@@ -201,9 +205,14 @@ class KeywordWidget(SelectWidget):
                 # Value needs to be a utf-8 str, only hell knows why.
                 # IMHO this should depend on the source. We're gonna have
                 # trouble with this in the future.
+                # ...
+                # Well as I said before...
                 new_token = as_keyword_token(new_value)
-                if isinstance(new_value, unicode):
-                    new_value = new_value.encode('utf-8')
+                if self.new_terms_as_unicode:
+                    new_value = safe_unicode(new_value)
+                else:
+                    new_value = safe_utf8(new_value)
+
                 terms.append(
                     SimpleTerm(new_value, new_token, safe_unicode(new_value)))
 

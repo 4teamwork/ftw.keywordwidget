@@ -84,3 +84,19 @@ class TestKeywordWidget(FunctionalTestCase):
         browser.login().visit(content, view='edit')
         types = browser.find_field_by_text(u'Types3')
         self.assertEquals(('File', 'SampleContent'), tuple(types.value))
+
+    @browsing
+    def test_adding_terms_with_unicode_values_and_vocab_with_unicode_values(self, browser):
+        content = create(Builder('sample content').titled(u'A content'))
+        browser.login().visit(content, view='edit')
+
+        tags = browser.find_field_by_text(u'UnicodeTags')
+        form = browser.find_form_by_field('UnicodeTags')
+        new = browser.css('#' + tags.attrib['id'] + '_new').first
+        new.text = u'NewItem1\nNew Item 2\nN\xf6i 3'
+        form.submit()
+
+        browser.visit(content, view='edit')
+        tags = browser.find_field_by_text(u'UnicodeTags')
+        self.assertTupleEqual(('New Item 2', 'NewItem1', 'N=C3=B6i 3'),
+                              tuple(tags.value))

@@ -14,6 +14,37 @@ Introduction
 The widget supports schema.Choice, schema.Tuple and schema.List fields.
 
 
+Unicode or utf-8??
+------------------
+
+The ICategorization behavior provided by this package depends on the plone
+default index "Subject".
+In DX "Subject" is a accessor for "subject", which returns utf-8.
+"subject" itself has a property getter for "subjects", where the values are actually stored.
+
+The Plone KeywordsVocabulary builds it's terms using the catalog value, which is utf-8 in case of the Subject index. By convention indexed values should be always utf-8 and DX values should always be unicode.
+
+This actually means in the case of the KeywordsVocabulary the value needs to be stored as utf-8, because the vocabulary values are encoded as utf-8.
+The SequenceWidget fieldToWidget converter has a sanity check included, which makes sure only field values, which are also in vocabulary are computed. 
+And this means if you store new terms as unicode values, the whole thing falls apart. Currently the widget makes sure to work perfectly with the "Subject" index, which relays on utf-8 values, which is not common with DX types. 
+
+Beside of the primary Use-Case, the widget also supports vocabularies, with unicode values, but this needs to be configured separately on the widget.
+New terms are than added as unicode instead of utf-8.
+
+::
+
+    directives.widget('unicode_keywords', KeywordFieldWidget, new_terms_as_unicode=True)
+    unicode_keywords = schema.Tuple(
+        title=u'UnicodeTags',
+        value_type=ChoicePlus(
+            title=u"Multiple",
+            vocabulary='ftw.keywordwidget.UnicodeKeywordVocabulary',
+            ),
+        required=False,
+        missing_value=(),
+    )
+
+
 Primary Use-Case
 ----------------
 

@@ -68,6 +68,11 @@
         for="plone.dexterity.interfaces.IDexterityContent"
         />
 
+    <utility
+        component=".vocabularies.UnicodeKeywordsVocabularyFactory"
+        name="ftw.keywordwidget.UnicodeKeywordVocabulary"
+        />
+
     <include package="ftw.upgrade" file="meta.zcml" />
     <upgrade-step:directory
         profile="ftw.keywordwidget:default"
