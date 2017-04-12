@@ -1,4 +1,5 @@
 from binascii import b2a_qp
+from ftw.keywordwidget.utils import safe_utf8
 from Products.CMFCore.utils import getToolByName
 from Products.CMFPlone.utils import safe_unicode
 from zope.component.hooks import getSite
@@ -6,12 +7,6 @@ from zope.interface import implementer
 from zope.schema.interfaces import IVocabularyFactory
 from zope.schema.vocabulary import SimpleTerm
 from zope.schema.vocabulary import SimpleVocabulary
-
-
-def safe_utf8(text):
-    if isinstance(text, unicode):
-        text = text.encode('utf8')
-    return text
 
 
 @implementer(IVocabularyFactory)
