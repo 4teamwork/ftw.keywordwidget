@@ -2,6 +2,10 @@ from ftw.builder import Builder
 from ftw.builder import create
 from ftw.keywordwidget.tests import FunctionalTestCase
 from ftw.testbrowser import browsing
+from zope.interface import implementer
+from zope.schema import Choice
+from zope.schema.interfaces import IContextSourceBinder
+from zope.schema.vocabulary import SimpleVocabulary
 import transaction
 
 
@@ -128,3 +132,21 @@ class TestAsyncOption(FunctionalTestCase):
         field = browser.find_field_by_text('async')
         self.assertListEqual(list(field.value), field.options_values)
 
+    def test_async_option_only_works_with_IQuerySource(self):
+
+        @implementer(IContextSourceBinder)
+        class DummySource(object):
+            def __call__(self, context):
+                return SimpleVocabulary([])
+
+        content = create(Builder('sample content')
+                         .titled(u'A content')
+                         .having(subjects=('foo', 'bar', 'baz', 'abc')))
+
+        edit_form = content.restrictedTraverse('@@edit').form_instance
+        edit_form.update()
+        new_field = Choice(title=u'dummy', source=DummySource())
+        edit_form.fields['IKeywordUseCases.async'].field = new_field
+
+        with self.assertRaises(TypeError):
+            edit_form.update()

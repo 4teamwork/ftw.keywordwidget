@@ -12,9 +12,11 @@ from z3c.form.interfaces import IFieldWidget
 from z3c.form.interfaces import INPUT_MODE
 from z3c.form.interfaces import NOVALUE
 from z3c.form.widget import FieldWidget
+from z3c.formwidget.query.interfaces import IQuerySource
 from zope import schema
 from zope.i18n import translate
 from zope.interface import implementer
+from zope.schema.interfaces import IContextSourceBinder
 from zope.schema.interfaces import ITitledTokenizedTerm
 from zope.schema.vocabulary import SimpleTerm
 from zope.schema.vocabulary import SimpleVocabulary
@@ -114,8 +116,19 @@ class KeywordWidget(SelectWidget):
                 values.remove(new_value)
         self.request.set(self.name, values)
 
+    def _validate_source_for_async(self):
+        source = self.choice_field.source
+        if IContextSourceBinder.providedBy(source):
+            source = source(self.context)
+            if IQuerySource.providedBy(source):
+                return
+        raise(TypeError('A IContextSourceBinder with IQuerySource is needed'))
+
     def update(self):
         self.get_choice_field()
+
+        if self.async:
+            self._validate_source_for_async()
 
         super(KeywordWidget, self).update()
 
