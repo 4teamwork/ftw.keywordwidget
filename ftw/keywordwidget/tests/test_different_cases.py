@@ -100,3 +100,31 @@ class TestKeywordWidget(FunctionalTestCase):
         tags = browser.find_field_by_text(u'UnicodeTags')
         self.assertTupleEqual(('New Item 2', 'NewItem1', 'N=C3=B6i 3'),
                               tuple(tags.value))
+
+
+class TestAsyncOption(FunctionalTestCase):
+    def setUp(self):
+        super(TestAsyncOption, self).setUp()
+        self.grant('Manager')
+        additional_behaviors = [
+            'ftw.keywordwidget.behavior.IKeywordCategorization',
+            'ftw.keywordwidget.behavior.IKeywordUseCases',
+        ]
+        self.setup_fti(additional_behaviors=additional_behaviors)
+        transaction.commit()
+
+    @browsing
+    def test_async_render_only_selected_items(self, browser):
+        create(Builder('sample content')
+               .titled(u'A content')
+               .having(subjects=('foo', 'bar', 'baz', 'abc',
+                                 'zzzzzz', 'lorem', 'ipsum')))
+
+        content = create(Builder('sample content')
+                         .titled(u'Use async lib')
+                         .having(async=('abc', 'zzzzzz', 'lorem')))
+
+        browser.login().visit(content, view='edit')
+        field = browser.find_field_by_text('async')
+        self.assertListEqual(list(field.value), field.options_values)
+

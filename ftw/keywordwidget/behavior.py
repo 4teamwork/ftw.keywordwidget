@@ -1,4 +1,5 @@
 from ftw.keywordwidget.field import ChoicePlus
+from ftw.keywordwidget.vocabularies import KeywordSearchableSourceBinder
 from ftw.keywordwidget.widget import KeywordFieldWidget
 from plone.app.dexterity import PloneMessageFactory as _PMF
 from plone.app.dexterity.behaviors.metadata import MetadataBase
@@ -95,5 +96,17 @@ class IKeywordUseCases(model.Schema):
         required=False,
         missing_value=(),
     )
+
+    directives.widget('async', KeywordFieldWidget, async=True)
+    async = schema.Tuple(
+        title=u'async',
+        value_type=schema.Choice(
+            title=u"Multiple",
+            source=KeywordSearchableSourceBinder(),
+            ),
+        required=False,
+        missing_value=(),
+    )
+
 
 alsoProvides(IKeywordUseCases, IFormFieldProvider)

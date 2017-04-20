@@ -15,6 +15,7 @@ from z3c.form.widget import FieldWidget
 from zope import schema
 from zope.i18n import translate
 from zope.interface import implementer
+from zope.schema.interfaces import ITitledTokenizedTerm
 from zope.schema.vocabulary import SimpleTerm
 from zope.schema.vocabulary import SimpleVocabulary
 import json
@@ -53,6 +54,7 @@ class KeywordWidget(SelectWidget):
     choice_field = None
     add_permission = None
     new_terms_as_unicode = None
+    async = False
 
     display_template = ViewPageTemplateFile('templates/keyword_display.pt')
     input_template = ViewPageTemplateFile('templates/keyword_input.pt')
@@ -60,10 +62,11 @@ class KeywordWidget(SelectWidget):
     js_template = ViewPageTemplateFile('templates/keyword.js.pt')
 
     def __init__(self, request, js_config=None, add_permission=None,
-                 new_terms_as_unicode=False):
+                 new_terms_as_unicode=False, async=False):
         self.request = request
         self.js_config = js_config
         self.new_terms_as_unicode = new_terms_as_unicode
+        self.async = async
 
         self.add_permission = (add_permission or
                                'ftw.keywordwidget: Add new term')
@@ -195,6 +198,11 @@ class KeywordWidget(SelectWidget):
 
     def updateTerms(self):
         super(KeywordWidget, self).updateTerms()
+
+        if self.async:
+            # It's not possible to add new terms in async mode
+            return
+
         simple_vocbaulary = self.terms.terms
         terms = self.terms.terms._terms
 
@@ -218,6 +226,63 @@ class KeywordWidget(SelectWidget):
 
         self.terms.terms = SimpleVocabulary(terms)
         return self.terms
+
+    def items(self):
+        """This is a copy of the z3c.form.browser.select.SelectWidget
+        There's one difference, if the widget is in async mode.
+        The widget actually only renders the select values and not all
+        possible values.
+        """
+
+        if self.terms is None:  # update() has not been called yet
+            return ()
+        items = []
+        if (not self.required or self.prompt) and self.multiple is None:
+            message = self.noValueMessage
+            if self.prompt:
+                message = self.promptMessage
+            items.append({
+                'id': self.id + '-novalue',
+                'value': self.noValueToken,
+                'content': message,
+                'selected': self.value == []
+            })
+
+        ignored = set(self.value)
+
+        def addItem(idx, term, prefix=''):
+            selected = self.isSelected(term)
+            if selected and term.token in ignored:
+                ignored.remove(term.token)
+            id = '%s-%s%i' % (self.id, prefix, idx)
+            content = term.token
+            if ITitledTokenizedTerm.providedBy(term):
+                content = translate(
+                    term.title, context=self.request, default=term.title)
+            items.append(
+                {'id': id, 'value': term.token, 'content': content,
+                 'selected': selected})
+
+        if self.async:
+            terms = [self.terms.getTerm(v) for v in self.value]
+        else:
+            terms = self.terms
+
+        for idx, term in enumerate(terms):
+            addItem(idx, term)
+
+        if ignored:
+            # some values are not displayed, probably they went away from the
+            # vocabulary
+            for idx, token in enumerate(sorted(ignored)):
+                try:
+                    term = self.terms.getTermByToken(token)
+                except LookupError:
+                    # just in case the term really went away
+                    continue
+
+                addItem(idx, term, prefix='missing-')
+        return items
 
     def keyword_js(self):
         return self.js_template(widgetid=self.id)
