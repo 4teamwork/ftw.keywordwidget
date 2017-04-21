@@ -1,11 +1,13 @@
 from ftw.builder import Builder
 from ftw.builder import create
+from ftw.keywordwidget.search import SearchSource
 from ftw.keywordwidget.tests import FunctionalTestCase
 from ftw.testbrowser import browsing
 from zope.interface import implementer
 from zope.schema import Choice
 from zope.schema.interfaces import IContextSourceBinder
 from zope.schema.vocabulary import SimpleVocabulary
+import json
 import transaction
 
 
@@ -150,3 +152,31 @@ class TestAsyncOption(FunctionalTestCase):
 
         with self.assertRaises(TypeError):
             edit_form.update()
+
+    def test_search_endpoint(self):
+        content = create(Builder('sample content')
+                         .titled(u'A content')
+                         .having(subjects=('foo', 'bar', 'baz', 'abc',
+                                           'zzzzzz', 'lorem', 'ipsum')))
+
+        self.portal.REQUEST.set('q', 'ba')
+        result = self._get_search_view(content)
+
+        self.assertTrue(isinstance(json.loads(result), list))
+        self.assertEquals([{'token': u'bar',
+                            'value': u'bar',
+                            'title': u'bar'},
+                           {'token': u'baz',
+                            'value': u'baz',
+                            'title': u'baz'}, ],
+                          json.loads(result))
+
+        self.portal.REQUEST.set('q', 'dummy')
+        result = self._get_search_view(content)
+        self.assertEquals([], json.loads(result))
+
+    def _get_search_view(self, context):
+        form = context.unrestrictedTraverse('@@edit').form_instance
+        form.update()
+        widget = form.widgets['IKeywordUseCases.async']
+        return SearchSource(widget, widget.request)()

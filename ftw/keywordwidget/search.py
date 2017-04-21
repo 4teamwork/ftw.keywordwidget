@@ -1,0 +1,30 @@
+from Products.Five.browser import BrowserView
+import json
+
+
+class SearchSource(BrowserView):
+
+    def __init__(self, context, request):
+        super(SearchSource, self).__init__(context, request)
+        self.widget = self.context
+
+    def __call__(self):
+        self.request.response.setHeader('Content-Type', 'application/json')
+        self.request.response.setHeader('X-Theme-Disabled', 'True')
+
+        query = self.request.get('q', None)
+
+        if not query:
+            json.dumps([])
+
+        self.widget.update()
+        source = self.widget.choice_field.source(self.widget.context)
+
+        return json.dumps(
+            map(self._term_to_dict, source.search(query))
+        )
+
+    def _term_to_dict(self, term):
+        return {'token': term.token,
+                'value': term.value,
+                'title': term.title and term.title or term.value}
