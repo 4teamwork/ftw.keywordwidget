@@ -25,7 +25,7 @@
                             onblur view/onblur;
                             onchange view/onchange;
                             multiple view/multiple;
-                            data-select2config view/js_config;
+                            data-select2config view/config_json;
                             size view/size">
 
         <tal:block repeat="item view/items">

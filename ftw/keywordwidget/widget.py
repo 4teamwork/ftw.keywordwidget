@@ -53,6 +53,7 @@ class KeywordWidget(SelectWidget):
 
     # KeywordWidget specific
     js_config = None
+    config_json = ''
     choice_field = None
     add_permission = None
     new_terms_as_unicode = None
@@ -163,7 +164,7 @@ class KeywordWidget(SelectWidget):
         if self.js_config:
             default_config.update(self.js_config)
 
-        self.js_config = json.dumps(default_config)
+        self.config_json = json.dumps(default_config)
 
     def update_multivalued_property(self):
         if not is_list_type_field(self.field):
