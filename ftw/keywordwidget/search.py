@@ -1,3 +1,4 @@
+from plone.batching.batch import Batch
 from Products.Five.browser import BrowserView
 import json
 
@@ -13,15 +14,24 @@ class SearchSource(BrowserView):
         self.request.response.setHeader('X-Theme-Disabled', 'True')
 
         query = self.request.get('q', None)
+        page = int(self.request.get('page', 1))
+        pagesize = int(self.request.get('pagesize', 20))
 
         if not query:
-            json.dumps([])
+            return json.dumps({})
 
         self.widget.update()
         source = self.widget.choice_field.source(self.widget.context)
 
+        batch = Batch.fromPagenumber(items=source.search(query),
+                                     pagesize=pagesize,
+                                     pagenumber=page)
         return json.dumps(
-            map(self._term_to_dict, source.search(query))
+            {
+                'items': map(self._term_to_dict, batch),
+                'total_count': len(batch),
+                'page': page
+            }
         )
 
     def _term_to_dict(self, term):

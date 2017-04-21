@@ -160,20 +160,54 @@ class TestAsyncOption(FunctionalTestCase):
                                            'zzzzzz', 'lorem', 'ipsum')))
 
         self.portal.REQUEST.set('q', 'ba')
-        result = self._get_search_view(content)
+        result = json.loads(self._get_search_view(content))
 
-        self.assertTrue(isinstance(json.loads(result), list))
+        self.assertTrue(isinstance(result, dict))
+        self.assertIn('total_count', result)
+        self.assertEquals(result['total_count'], 2)
+
+        self.assertIn('page', result)
+        self.assertEquals(result['page'], 1)
+
+        self.assertIn('items', result)
         self.assertEquals([{'token': u'bar',
                             'value': u'bar',
                             'title': u'bar'},
                            {'token': u'baz',
                             'value': u'baz',
                             'title': u'baz'}, ],
-                          json.loads(result))
+                          result['items'])
 
         self.portal.REQUEST.set('q', 'dummy')
-        result = self._get_search_view(content)
-        self.assertEquals([], json.loads(result))
+        result = json.loads(self._get_search_view(content))
+        self.assertEquals([], result['items'])
+
+    def test_search_endpoint_batch_result(self):
+        content = create(Builder('sample content')
+                         .titled(u'A content')
+                         .having(subjects=map(str, range(1, 100))))
+
+        self.portal.REQUEST.set('q', '1')
+        self.portal.REQUEST.set('pagesize', '5')
+        self.portal.REQUEST.set('page', '1')
+        result = json.loads(self._get_search_view(content))
+
+        self.assertEquals(5, len(result['items']))
+        self.assertEquals(19, result['total_count'])
+        self.assertEquals([u'1', u'10', u'11', u'12', u'13'],
+                          self._get_values(result['items']))
+
+        self.portal.REQUEST.set('q', '1')
+        self.portal.REQUEST.set('pagesize', '5')
+        self.portal.REQUEST.set('page', '3')
+        result = json.loads(self._get_search_view(content))
+        self.assertEquals(5, len(result['items']))
+        self.assertEquals(19, result['total_count'])
+        self.assertEquals([u'19', u'21', u'31', u'41', u'51'],
+                          self._get_values(result['items']))
+
+    def _get_values(self, items):
+        return map(lambda item: item['value'], items)
 
     def _get_search_view(self, context):
         form = context.unrestrictedTraverse('@@edit').form_instance
