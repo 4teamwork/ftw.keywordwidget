@@ -47,7 +47,12 @@ class KeywordWidget(SelectWidget):
     noValueMessage = _('no value')
     promptMessage = _('select some values ...')
     promptNoresultFound = _('No result found')
-    labelNew = _('New')
+    label_new = _(u'New')
+    label_searching = _(u'Searching...')
+    label_loading_more = _('Load more results...')
+    label_tooshort_prefix = _('Please enter ')
+    label_tooshort_postfix = _(' or more characters')
+
     multiple = 'multiple'
     size = 10
 
@@ -151,8 +156,16 @@ class KeywordWidget(SelectWidget):
                                                context=self.request),
                 'label_no_result': translate(self.promptNoresultFound,
                                              context=self.request),
-                'label_new': translate(self.labelNew,
-                                       context=self.request)
+                'label_new': translate(self.label_new,
+                                       context=self.request),
+                'label_searching': translate(self.label_searching,
+                                             context=self.request),
+                'label_loading_more': translate(self.label_loading_more,
+                                                context=self.request),
+                'label_tooshort_prefix': translate(self.label_tooshort_prefix,
+                                                   context=self.request),
+                'label_tooshort_postfix': translate(self.label_tooshort_postfix,
+                                                    context=self.request),
             },
             'width': '300px',
             'allowClear': not self.field.required and not self.multiple,

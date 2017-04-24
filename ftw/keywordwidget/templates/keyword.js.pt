@@ -9,6 +9,19 @@ $(function() {
         config.language = {
           noResults: function(){
             return i18n.label_no_result;
+          },
+          searching: function () {
+            return i18n.label_searching;
+          },
+          loadingMore: function () {
+            return i18n.label_loading_more;
+          },
+          inputTooShort: function (args) {
+            var remainingChars = args.minimum - args.input.length;
+
+            var message = i18n.label_tooshort_prefix + remainingChars + i18n.label_tooshort_postfix;
+
+            return message;
           }
         };
 
