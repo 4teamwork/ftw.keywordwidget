@@ -84,7 +84,7 @@
         />
 
     <browser:page
-        for="z3c.form.interfaces.ISelectWidget"
+        for="ftw.keywordwidget.widget.IKeywordWidget"
         name="search"
         class=".search.SearchSource"
         permission="zope2.View"

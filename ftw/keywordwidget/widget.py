@@ -10,6 +10,7 @@ from z3c.form.interfaces import DISPLAY_MODE
 from z3c.form.interfaces import HIDDEN_MODE
 from z3c.form.interfaces import IFieldWidget
 from z3c.form.interfaces import INPUT_MODE
+from z3c.form.interfaces import ISelectWidget
 from z3c.form.interfaces import NOVALUE
 from z3c.form.widget import FieldWidget
 from z3c.formwidget.query.interfaces import IQuerySource
@@ -38,6 +39,11 @@ def as_keyword_token(value):
     return b2a_qp(value)
 
 
+class IKeywordWidget(ISelectWidget):
+    """Marker interface for the Keywordwidget"""
+
+
+@implementer(IKeywordWidget)
 class KeywordWidget(SelectWidget):
 
     klass = u'keyword-widget'
