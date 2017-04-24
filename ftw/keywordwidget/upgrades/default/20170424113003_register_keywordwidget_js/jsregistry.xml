@@ -1,0 +1,11 @@
+<?xml version="1.0"?>
+<object name="portal_javascripts">
+
+    <javascript
+        id="++resource++ftw.keywordwidget/js/keywordwidget.js"
+        enabled="True"
+        authenticated="True"
+        compression="none"
+        />
+
+</object>
