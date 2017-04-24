@@ -26,15 +26,17 @@ class SearchSource(BrowserView):
         batch = Batch.fromPagenumber(items=source.search(query),
                                      pagesize=pagesize,
                                      pagenumber=page)
+
         return json.dumps(
             {
-                'items': map(self._term_to_dict, batch),
+                'results': map(self._term_to_dict, batch),
                 'total_count': len(batch),
-                'page': page
+                'page': page,
+                'pagination': {'more': (page * pagesize) < len(batch)}
             }
         )
 
     def _term_to_dict(self, term):
-        return {'token': term.token,
-                'value': term.value,
-                'title': term.title and term.title or term.value}
+        return {'_resultId': term.token,
+                'id': term.value,
+                'text': term.title and term.title or term.value}

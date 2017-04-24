@@ -164,6 +164,14 @@ class KeywordWidget(SelectWidget):
         if self.js_config:
             default_config.update(self.js_config)
 
+        if self.async:
+            self.ajax_options_json = json.dumps(
+                {'url': '{}/++widget++{}/search'.format(self.request.getURL(),
+                                                        self.name),
+                 'dataType': 'json',
+                 'delay': 250}
+            )
+
         self.config_json = json.dumps(default_config)
 
     def update_multivalued_property(self):
