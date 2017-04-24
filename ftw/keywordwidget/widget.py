@@ -54,6 +54,7 @@ class KeywordWidget(SelectWidget):
     # KeywordWidget specific
     js_config = None
     config_json = ''
+    ajax_options_json = ''
     choice_field = None
     add_permission = None
     new_terms_as_unicode = None
@@ -160,6 +161,9 @@ class KeywordWidget(SelectWidget):
         if self.show_add_term_field():
             default_config['tags'] = True
             default_config['tokenSeparators'] = [',']
+
+        if self.async:
+            default_config['minimumInputLength'] = 3
 
         if self.js_config:
             default_config.update(self.js_config)

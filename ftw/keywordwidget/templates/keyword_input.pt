@@ -26,6 +26,7 @@
                             onchange view/onchange;
                             multiple view/multiple;
                             data-select2config view/config_json;
+                            data-ajaxoptions view/ajax_options_json;
                             size view/size">
 
         <tal:block repeat="item view/items">

@@ -3,6 +3,7 @@ $(function() {
     function initSelect2(widget){
         var config = widget.data("select2config");
         var i18n = config.i18n;
+        var ajaxOptions = widget.data("ajaxoptions");
 
         // Update language from Backend
         config.language = {
@@ -16,19 +17,40 @@ $(function() {
 
         // Special template to indicate new terms
         config.templateResult = function (data) {
+
           if (!data._resultId) {
+
             // Since this is hacked into a pt, we cannot use html tags :-(
             return $(document.createElement('span'))
               .text(data.text)
               .addClass('newTag')
               .add($(document.createElement('span')).addClass('newTagHint').text(i18n.label_new));
           } else {
-            return data.text;  
+            return data.text;
           }
+        };
+
+        // Add and Update config for remote data
+        if (ajaxOptions) {
+          config.ajax = {
+            data: function (params) {
+              return {
+                q: params.term,
+                page: params.page || 1
+              };
+            },
+            processResults: function (data, params) {
+              params.page = params.page || 1;
+              return data;
+            },
+            cache: true
+          };
+
+          $.extend(config.ajax, ajaxOptions);
         }
 
         $(widget).select2(config).on('change', function(event){
-            var newTermsField = $(this).parent().find('[id$="_new"]')
+            var newTermsField = $(this).parent().find('[id$="_new"]');
             var newTerms = $(this).find('[data-select2-tag="true"]');
             var newTermsText = $.map(newTerms, function(val, i){ return val.value; });
             newTermsField.val(newTermsText.join('\n'));
