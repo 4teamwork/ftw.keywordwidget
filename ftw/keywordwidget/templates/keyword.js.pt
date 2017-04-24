@@ -17,17 +17,18 @@ $(function() {
 
         // Special template to indicate new terms
         config.templateResult = function (data) {
-
-          if (!data._resultId) {
-
-            // Since this is hacked into a pt, we cannot use html tags :-(
-            return $(document.createElement('span'))
-              .text(data.text)
-              .addClass('newTag')
-              .add($(document.createElement('span')).addClass('newTagHint').text(i18n.label_new));
-          } else {
-            return data.text;
-          }
+          if (!data.loading) {
+            // Nested if, since we cannot use amp in a templage... grml... will change this soon.
+            if (!data._resultId) {
+                // Since this is hacked into a pt, we cannot use html tags :-(
+                return $(document.createElement('span'))
+                  .text(data.text)
+                  .addClass('newTag')
+                  .add($(document.createElement('span')).addClass('newTagHint').text(i18n.label_new));
+              } else {
+                return data.text;
+              }              
+            }
         };
 
         // Add and Update config for remote data
