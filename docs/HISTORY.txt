@@ -2,7 +2,7 @@ Changelog
 =========
 
 
-1.1.5 (unreleased)
+1.2.0 (2017-04-24)
 ------------------
 
 - Implement new option to create new terms with unicode values instead of utf-8.
