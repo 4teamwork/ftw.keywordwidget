@@ -106,7 +106,7 @@ The idea is that you integrate it where needed by your self.
 
 But for the primary Use-Case mentioned above, there is a behavior:
 
-1. Install the ``default`` profile and the ``select2`` profile if needed.
+1. Install the ``default`` profile and the ``select2js`` profile if needed.
 2. Enable the ``ftw.keywordwidget.behavior.IKeywordCategorization`` behavior on your content type.
 
 For some other Use-Cases you can also enable the ``ftw.keywordwidget.behavior.IKeywordUseCases`` behavior.
