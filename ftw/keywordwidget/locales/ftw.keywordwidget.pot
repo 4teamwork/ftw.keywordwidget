@@ -4,7 +4,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
-"POT-Creation-Date: 2017-02-08 16:05+0000\n"
+"POT-Creation-Date: 2017-04-24 08:06+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI +ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -14,6 +14,10 @@ msgstr ""
 "Plural-Forms: nplurals=1; plural=0\n"
 "Preferred-Encodings: utf-8 latin1\n"
 
+#: ./ftw/keywordwidget/widget.py:54
+msgid " or more characters"
+msgstr ""
+
 #: ./ftw/keywordwidget/configure.zcml:62
 msgid "Adds keywords/tags/subjects"
 msgstr ""
@@ -22,12 +26,24 @@ msgstr ""
 msgid "Categorization with keywordwidget"
 msgstr ""
 
-#: ./ftw/keywordwidget/widget.py:40
+#: ./ftw/keywordwidget/widget.py:52
+msgid "Load more results..."
+msgstr ""
+
+#: ./ftw/keywordwidget/widget.py:50
 msgid "New"
 msgstr ""
 
-#: ./ftw/keywordwidget/widget.py:39
+#: ./ftw/keywordwidget/widget.py:49
 msgid "No result found"
+msgstr ""
+
+#: ./ftw/keywordwidget/widget.py:53
+msgid "Please enter "
+msgstr ""
+
+#: ./ftw/keywordwidget/widget.py:51
+msgid "Searching..."
 msgstr ""
 
 #: ./ftw/keywordwidget/configure.zcml:69
@@ -51,19 +67,19 @@ msgid "ftw.keywordwidget default"
 msgstr ""
 
 #. Default: "New entries"
-#: ./ftw/keywordwidget/templates/keyword_input.pt:49
+#: ./ftw/keywordwidget/templates/keyword_input.pt:50
 msgid "label_new_tokens"
 msgstr ""
 
-#: ./ftw/keywordwidget/widget.py:37
+#: ./ftw/keywordwidget/widget.py:47
 msgid "no value"
 msgstr ""
 
-#: ./ftw/keywordwidget/widget.py:124
+#: ./ftw/keywordwidget/widget.py:198
 msgid "select a value ..."
 msgstr ""
 
-#: ./ftw/keywordwidget/widget.py:38
+#: ./ftw/keywordwidget/widget.py:48
 msgid "select some values ..."
 msgstr ""
 

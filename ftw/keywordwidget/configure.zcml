@@ -83,4 +83,12 @@
         directory="./upgrades/select2js"
         />
 
+    <browser:page
+        for="ftw.keywordwidget.widget.IKeywordWidget"
+        name="search"
+        class=".search.SearchSource"
+        permission="zope2.View"
+        />
+        
+
 </configure>

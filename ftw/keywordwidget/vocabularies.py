@@ -2,8 +2,10 @@ from binascii import b2a_qp
 from ftw.keywordwidget.utils import safe_utf8
 from Products.CMFCore.utils import getToolByName
 from Products.CMFPlone.utils import safe_unicode
+from z3c.formwidget.query.interfaces import IQuerySource
 from zope.component.hooks import getSite
 from zope.interface import implementer
+from zope.schema.interfaces import IContextSourceBinder
 from zope.schema.interfaces import IVocabularyFactory
 from zope.schema.vocabulary import SimpleTerm
 from zope.schema.vocabulary import SimpleVocabulary
@@ -46,3 +48,43 @@ class UnicodeKeywordsVocabulary(object):
             return SimpleVocabulary([])
 
 UnicodeKeywordsVocabularyFactory = UnicodeKeywordsVocabulary()
+
+
+@implementer(IQuerySource)
+class KeywordSearchableSource(object):
+    """This example of a IQuerySource is taken from the
+    plone.formwidget.autocomplete
+    """
+
+    def __init__(self, context):
+        self.context = context
+        catalog = getToolByName(context, 'portal_catalog')
+        self.keywords = catalog.uniqueValuesFor('Subject')
+        self.vocab = SimpleVocabulary.fromItems(
+            [(x, x) for x in self.keywords])
+
+    def __contains__(self, term):
+        return self.vocab.__contains__(term)
+
+    def __iter__(self):
+        return self.vocab.__iter__()
+
+    def __len__(self):
+        return self.vocab.__len__()
+
+    def getTerm(self, value):
+        return self.vocab.getTerm(value)
+
+    def getTermByToken(self, value):
+        return self.vocab.getTermByToken(value)
+
+    def search(self, query_string):
+        q = query_string.lower()
+        return [self.getTerm(kw) for kw in self.keywords if q in kw.lower()]
+
+
+@implementer(IContextSourceBinder)
+class KeywordSearchableSourceBinder(object):
+
+    def __call__(self, context):
+        return KeywordSearchableSource(context)

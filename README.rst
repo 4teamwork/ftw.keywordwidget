@@ -10,6 +10,7 @@ Introduction
 2. A ``ChoicePlus`` field, which allows new terms. This is prevents us from making a specific, complicated source, which allow new items.
 3. Render a additional ``New Entry`` textarea for new terms.
 4. Uses tags feature of select 2 to add new keywords.
+5. A async option to get the selectable options with the select2 ajax options.
 
 The widget supports schema.Choice, schema.Tuple and schema.List fields.
 
@@ -45,6 +46,28 @@ New terms are than added as unicode instead of utf-8.
     )
 
 
+Async option
+------------
+
+The async option can only be used if the source is a IQuerySource from z3c.formwidget.query.interfaces.
+This interface extends the ISource specification by a `search` method, which is essential for the async option.
+
+Basically if `async=True` the select2 Widget asks a search endpoint for possible options by a given search term.
+Further the search endpoint queries the `IContentSourceBinder` defined on the field.
+
+::
+
+    directives.widget('async', KeywordFieldWidget, async=True)
+    async = schema.Tuple(
+        title=u'Some async values',
+        value_type=ChoicePlus(
+            source=MySourceBinder(),
+            ),
+        required=False,
+        missing_value=(),
+    )
+
+
 Primary Use-Case
 ----------------
 
@@ -71,12 +94,6 @@ There are several other z3c form widgets for plone 4.x, which provides a similar
 - They do not fit the primary Use-Case.
 
 Further you can configure the select2 plugin as you wish.
-
-
-TODO
-----
-
-- Implement async option
 
 
 Compatibility
