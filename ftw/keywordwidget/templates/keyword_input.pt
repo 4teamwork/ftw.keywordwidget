@@ -55,6 +55,4 @@
         </textarea>
     </div>
 
-    <script tal:content="view/keyword_js" />
-
 </div>

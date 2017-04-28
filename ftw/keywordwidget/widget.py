@@ -74,7 +74,6 @@ class KeywordWidget(SelectWidget):
     display_template = ViewPageTemplateFile('templates/keyword_display.pt')
     input_template = ViewPageTemplateFile('templates/keyword_input.pt')
     hidden_template = ViewPageTemplateFile('templates/keyword_hidden.pt')
-    js_template = ViewPageTemplateFile('templates/keyword.js.pt')
 
     def __init__(self, request, js_config=None, add_permission=None,
                  new_terms_as_unicode=False, async=False):
@@ -328,9 +327,6 @@ class KeywordWidget(SelectWidget):
 
                 addItem(idx, term, prefix='missing-')
         return items
-
-    def keyword_js(self):
-        return self.js_template(widgetid=self.id)
 
 
 @implementer(IFieldWidget)

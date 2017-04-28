@@ -5,6 +5,9 @@ Changelog
 1.2.1 (unreleased)
 ------------------
 
+- No longer load keywordwidget JS inline in the widget.
+  [mathias.leimgruber]
+
 - Implement new async option.
   [mathias.leimgruber]
 

@@ -2,19 +2,11 @@
 <object name="portal_javascripts">
 
     <javascript
-        id="++resource++ftw.keywordwidget/select2/dist/js/select2.min.js"
-        enabled="True"
-        insert-after="++resource++plone.app.jquery.js"
-        authenticated="True"
-        compression="none"
-        />
-
-    <javascript
         id="++resource++ftw.keywordwidget/js/keywordwidget.js"
         enabled="True"
         insert-after="++resource++ftw.keywordwidget/select2/dist/js/select2.min.js"
         authenticated="True"
-        compression=""
+        compression="none"
         />
 
 </object>
