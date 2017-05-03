@@ -5,6 +5,9 @@ Changelog
 1.2.1 (unreleased)
 ------------------
 
+- Add testbrowser widget for Keywordwidgets with async option.
+  [mathias.leimgruber]
+
 - No longer load keywordwidget JS inline in the widget.
   [mathias.leimgruber]
 

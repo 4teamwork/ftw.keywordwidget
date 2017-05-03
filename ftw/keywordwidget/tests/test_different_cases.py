@@ -134,6 +134,44 @@ class TestAsyncOption(FunctionalTestCase):
         field = browser.find_field_by_text('async')
         self.assertListEqual(list(field.value), field.options_values)
 
+    @browsing
+    def test_async_option_is_selectable_but_not_rendered(self, browser):
+        create(Builder('sample content')
+               .titled(u'A content')
+               .having(subjects=('foo', 'bar', 'baz', 'abc',
+                                 'zzzzzz', 'lorem', 'ipsum')))
+
+        content = create(Builder('sample content')
+                         .titled(u'Use async lib'))
+
+        browser.login().visit(content, view='edit')
+        field = browser.find_field_by_text('async')
+        self.assertFalse(tuple(field.value), 'Expect no selectable options')
+
+        form = browser.find_form_by_field('async')
+        form.find_widget('async').fill(['foo', 'bar'])
+        form.submit()
+
+        self.assertSequenceEqual(['foo', 'bar'], content.async)
+
+    @browsing
+    def test_async_option_terms_not_in_source_are_ignored(self, browser):
+        create(Builder('sample content')
+               .titled(u'A content')
+               .having(subjects=('foo', 'bar', 'baz', 'abc',
+                                 'zzzzzz', 'lorem', 'ipsum')))
+
+        content = create(Builder('sample content')
+                         .titled(u'Use async lib'))
+
+        browser.login().visit(content, view='edit')
+
+        form = browser.find_form_by_field('async')
+        form.find_widget('async').fill(['New', 'New2'])
+        form.submit()
+
+        self.assertFalse(content.async, 'Expect nothing in field async')
+
     def test_async_option_only_works_with_IQuerySource(self):
 
         @implementer(IContextSourceBinder)
