@@ -245,7 +245,7 @@ class KeywordWidget(SelectWidget):
 
         if self.async:
             # It's not possible to add new terms in async mode
-            return
+            return self.terms
 
         simple_vocbaulary = self.terms.terms
         terms = self.terms.terms._terms
