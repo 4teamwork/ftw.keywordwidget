@@ -38,5 +38,5 @@ class SearchSource(BrowserView):
 
     def _term_to_dict(self, term):
         return {'_resultId': term.token,
-                'id': term.value,
-                'text': term.title and term.title or term.value}
+                'id': term.token,
+                'text': term.title and term.title or term.token}
