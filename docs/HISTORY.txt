@@ -5,6 +5,9 @@ Changelog
 1.3.1 (unreleased)
 ------------------
 
+- Added french translations.
+  [phgross]
+
 - BugFix: Do not use the value as id in the search endpoint.
   [mathias.leimgruber]
 
