@@ -2,7 +2,7 @@ Changelog
 =========
 
 
-1.3.2 (unreleased)
+1.3.2 (2017-07-11)
 ------------------
 
 - Removed superfluous `for` attribute for a behavior without a `factory` configured. [phgross]
