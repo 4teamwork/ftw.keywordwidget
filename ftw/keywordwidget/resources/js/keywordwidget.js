@@ -60,7 +60,7 @@ $(function() {
 
         $(widget).select2(config).on('change', function(event){
             var newTermsField = $(this).parent().find('[id$="_new"]');
-            var newTerms = $(this).find('[data-select2-tag="true"]');
+            var newTerms = $(this).data('select2').val() || [];
             var newTermsText = $.map(newTerms, function(val, i){ return val.value; });
             newTermsField.val(newTermsText.join('\n'));
         }).parent().addClass(config.tags ? 'select2tags' : '');
