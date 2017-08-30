@@ -5,6 +5,8 @@ Changelog
 1.3.4 (unreleased)
 ------------------
 
+- Automatically open the search menu for single value fields. [mathias.leimgruber]
+
 - BugFix: Fix JS error on single value fields. [mathias.leimgruber]
 
 

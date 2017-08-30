@@ -96,4 +96,8 @@ $(function() {
       });
     });
 
+    $(document).on('focus', '.select2-selection.select2-selection--single', function(event){
+      $(this).parents('.select2-container').prev().select2('open');
+    });
+
 });
