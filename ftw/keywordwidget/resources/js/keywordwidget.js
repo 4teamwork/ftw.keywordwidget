@@ -60,6 +60,10 @@ $(function() {
 
         $(widget).select2(config).on('change', function(event){
             var newTermsField = $(this).parent().find('[id$="_new"]');
+            if (newTermsField.length === 0) {
+              return;
+            }
+
             var newTerms = $(this).data('select2').val() || [];
             var newTermsText = $.map(newTerms, function(val, i){ return val.value; });
             newTermsField.val(newTermsText.join('\n'));
@@ -90,6 +94,10 @@ $(function() {
       $('.keyword-widget:visible').each(function(index, widget){
         ftwKeywordWidgetInitSelect2($(widget));
       });
+    });
+
+    $(document).on('focus', '.select2-selection.select2-selection--single', function(event){
+      $(this).parents('.select2-container').prev().select2('open');
     });
 
 });
