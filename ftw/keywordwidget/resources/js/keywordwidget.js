@@ -60,6 +60,10 @@ $(function() {
 
         $(widget).select2(config).on('change', function(event){
             var newTermsField = $(this).parent().find('[id$="_new"]');
+            if (newTermsField.length === 0) {
+              return;
+            }
+
             var newTerms = $(this).data('select2').val() || [];
             var newTermsText = $.map(newTerms, function(val, i){ return val.value; });
             newTermsField.val(newTermsText.join('\n'));
