@@ -65,8 +65,7 @@ $(function() {
             }
 
             var newTerms = $(this).data('select2').val() || [];
-            var newTermsText = $.map(newTerms, function(val, i){ return val.value; });
-            newTermsField.val(newTermsText.join('\n'));
+            newTermsField.val(newTerms.join('\n'));
         }).parent().addClass(config.tags ? 'select2tags' : '');
     }
 
