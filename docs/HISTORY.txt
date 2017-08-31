@@ -2,7 +2,7 @@ Changelog
 =========
 
 
-1.3.6 (unreleased)
+1.3.6 (2017-08-31)
 ------------------
 
 - Only add terms to the new field list if it's really a new selected term.
