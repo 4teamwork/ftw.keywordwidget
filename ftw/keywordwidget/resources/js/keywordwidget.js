@@ -64,8 +64,16 @@ $(function() {
               return;
             }
 
-            var newTerms = $(this).data('select2').val() || [];
-            newTermsField.val(newTerms.join('\n'));
+            // They're probably not really selected but added manually.
+            var newAddedTerms = $.map($(this).find('[data-select2-tag="true"]'), function(val, i){ return val.value; });
+
+            var allSelectedTerms = $(this).data('select2').val() || [];
+            var newSelectedTerms = $.map(newAddedTerms, function(val, i){
+              if (allSelectedTerms.indexOf(val) !== -1) {
+                return val;
+              }
+            });
+            newTermsField.val(newSelectedTerms.join('\n'));
         }).parent().addClass(config.tags ? 'select2tags' : '');
     }
 
