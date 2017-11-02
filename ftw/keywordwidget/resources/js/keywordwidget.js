@@ -1,9 +1,37 @@
-$(function() {
+window.ftwKeywordWidget = function($) {
 
-    function initSelect2(widget){
+    "use strict";
+
+    var self = {};
+    var templates = {};
+
+    var init = function() {
+      document.dispatchEvent(new Event('ftwKeywordWidgetInit'));
+    };
+
+    var registerTemplate = function(name, templateFunction) {
+        if (templates.hasOwnProperty(name)) {
+            console.warn("A template with the name '" + name + "' is alredy registred.");
+            return;
+        }
+        templates[name] = templateFunction;
+    };
+
+    var getTemplate = function(name) {
+        if (!templates.hasOwnProperty(name)) {
+            console.warn("There is no registered template for the name '" + name + "' " +
+                "Read the README for more information.");
+            return;
+        }
+        return templates[name];
+    };
+
+    var initWidget = function(widget) {
         var config = widget.data("select2config");
         var i18n = config.i18n;
         var ajaxOptions = widget.data("ajaxoptions");
+        var templateSelection = widget.data("templateSelection");
+        var templateResult = widget.data("templateResult");
 
         // Update language from Backend
         config.language = {
@@ -75,36 +103,42 @@ $(function() {
             });
             newTermsField.val(newSelectedTerms.join('\n'));
         }).parent().addClass(config.tags ? 'select2tags' : '');
-    }
+    };
 
-    window.ftwKeywordWidgetInitSelect2 = initSelect2;
+    self.initWidget = initWidget;
+    self.registerTemplate = registerTemplate;
+    self.getTemplate = getTemplate;
+    self.init = init;
 
-    $(window).load(function(){
-      if ($().select2 === undefined) {
-          console.warn('You need to make sure, that select2 jquery plugin is loaded!');
-      } else {
-        $('.keyword-widget:visible').each(function(index, widget){
-          ftwKeywordWidgetInitSelect2($(widget));
-        });
-      }
+    return self;
+}(jQuery);
+
+window.ftwKeywordWidget.init();
+
+$(window).load(function(){
+  if ($().select2 === undefined) {
+      console.warn('You need to make sure, that select2 jquery plugin is loaded!');
+  } else {
+    $('.keyword-widget:visible').each(function(index, widget){
+      window.ftwKeywordWidget.initWidget($(widget));
     });
+  }
+});
 
-    // select2 has issues to get right width of the placeholder element if the content is hidden and select2 gets initialized.
-    // See https://github.com/select2/select2/issues/291
-    $(document).on("click", "select.formTabs a, ul.formTabs a", function (e, index) {
-      $('.keyword-widget:visible').each(function(index, widget){
-        ftwKeywordWidgetInitSelect2($(widget));
-      });
-    });
+// select2 has issues to get right width of the placeholder element if the content is hidden and select2 gets initialized.
+// See https://github.com/select2/select2/issues/291
+$(document).on("click", "select.formTabs a, ul.formTabs a", function (e, index) {
+  $('.keyword-widget:visible').each(function(index, widget){
+    window.ftwKeywordWidget.initWidget($(widget));
+  });
+});
 
-    $(document).on("onLoad OverlayContentReloaded", ".overlay", function() {
-      $('.keyword-widget:visible').each(function(index, widget){
-        ftwKeywordWidgetInitSelect2($(widget));
-      });
-    });
+$(document).on("onLoad OverlayContentReloaded", ".overlay", function() {
+  $('.keyword-widget:visible').each(function(index, widget){
+    window.ftwKeywordWidget.initWidget($(widget));
+  });
+});
 
-    $(document).on('focus', '.select2-selection.select2-selection--single', function(event){
-      $(this).parents('.select2-container').prev().select2('open');
-    });
-
+$(document).on('focus', '.select2-selection.select2-selection--single', function(event){
+  $(this).parents('.select2-container').prev().select2('open');
 });
