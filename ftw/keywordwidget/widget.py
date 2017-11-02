@@ -70,17 +70,22 @@ class KeywordWidget(SelectWidget):
     add_permission = None
     new_terms_as_unicode = None
     async = False
+    template_selection = ''
+    template_result = ''
 
     display_template = ViewPageTemplateFile('templates/keyword_display.pt')
     input_template = ViewPageTemplateFile('templates/keyword_input.pt')
     hidden_template = ViewPageTemplateFile('templates/keyword_hidden.pt')
 
     def __init__(self, request, js_config=None, add_permission=None,
-                 new_terms_as_unicode=False, async=False):
+                 new_terms_as_unicode=False, async=False, template_selection='',
+                 template_result=''):
         self.request = request
         self.js_config = js_config
         self.new_terms_as_unicode = new_terms_as_unicode
         self.async = async
+        self.template_result = template_result
+        self.template_selection = template_selection
 
         self.add_permission = (add_permission or
                                'ftw.keywordwidget: Add new term')

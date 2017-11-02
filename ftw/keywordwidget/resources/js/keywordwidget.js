@@ -6,7 +6,19 @@ window.ftwKeywordWidget = function($) {
     var templates = {};
 
     var init = function() {
-      document.dispatchEvent(new Event('ftwKeywordWidgetInit'));
+
+        // Special template to indicate new terms
+        registerTemplate("defaultResultTemplate", function (data) {
+            if (!data.loading && !data._resultId) {
+                return $('<span class="newTag" />')
+                .text(data.text)
+                .append($('<span class="newTagHint" />').text(i18n.label_new));
+            } else {
+                return data.text;
+            }
+        });
+
+        document.dispatchEvent(new Event('ftwKeywordWidgetInit'));
     };
 
     var registerTemplate = function(name, templateFunction) {
@@ -30,8 +42,8 @@ window.ftwKeywordWidget = function($) {
         var config = widget.data("select2config");
         var i18n = config.i18n;
         var ajaxOptions = widget.data("ajaxoptions");
-        var templateSelection = widget.data("templateSelection");
-        var templateResult = widget.data("templateResult");
+        var templateSelection = widget.data("templateselection");
+        var templateResult = widget.data("templateresult");
 
         // Update language from Backend
         config.language = {
@@ -56,16 +68,15 @@ window.ftwKeywordWidget = function($) {
         // Update placholder with translated string
         config.placeholder = i18n.label_placeholder;
 
-        // Special template to indicate new terms
-        config.templateResult = function (data) {
-          if (!data.loading && !data._resultId) {
-            return $('<span class="newTag" />')
-                       .text(data.text)
-                       .append($('<span class="newTagHint" />').text(i18n.label_new));
-          } else {
-            return data.text;
-          }
-        };
+        if (templateResult) {
+            config.templateResult = this.getTemplate(templateResult);
+        } else {
+            config.templateResult = this.getTemplate('defaultResultTemplate');
+        }
+
+        if (templateSelection) {
+            config.templateSelection = this.getTemplate(templateSelection);
+        }
 
         // Add and Update config for remote data
         if (ajaxOptions) {
