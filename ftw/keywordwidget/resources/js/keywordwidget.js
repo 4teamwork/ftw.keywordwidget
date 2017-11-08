@@ -1,11 +1,11 @@
-window.ftwKeywordWidget = function($) {
+window.ftwKeywordWidget = (function($) {
 
     "use strict";
 
     var self = {};
     var templates = {};
 
-    var init = function() {
+    function init() {
 
         // Special template to indicate new terms
         registerTemplate("defaultResultTemplate", function (data) {
@@ -18,27 +18,38 @@ window.ftwKeywordWidget = function($) {
             }
         });
 
-        document.dispatchEvent(new Event('ftwKeywordWidgetInit'));
-    };
+        $(document).trigger("ftwKeywordWidgetInit");
+    }
 
-    var registerTemplate = function(name, templateFunction) {
+    function registerTemplate(name, templateFunction) {
         if (templates.hasOwnProperty(name)) {
             console.warn("A template with the name '" + name + "' is alredy registred.");
             return;
         }
-        templates[name] = templateFunction;
-    };
-
-    var getTemplate = function(name) {
-        if (!templates.hasOwnProperty(name)) {
-            console.warn("There is no registered template for the name '" + name + "' " +
-                "Read the README for more information.");
+        if (!$.isFunction(templateFunction)) {
+            console.warn("The given template is not a function. A template needs to be a function.");
             return;
         }
-        return templates[name];
-    };
+        templates[name] = templateFunction;
+    }
 
-    var initWidget = function(widget) {
+    function getTemplate(name, fallback) {
+        if (templates.hasOwnProperty(name)) {
+            return templates[name];
+        } else if (templates.hasOwnProperty(fallback)) {
+            return templates[fallback];
+        }
+        return null;
+    }
+
+    function setSelect2Template(config, name, template) {
+        if (!template) {
+            return;
+        }
+        config[name] = template;
+    }
+
+    function initWidget(widget) {
         var config = widget.data("select2config");
         var i18n = config.i18n;
         var ajaxOptions = widget.data("ajaxoptions");
@@ -68,15 +79,13 @@ window.ftwKeywordWidget = function($) {
         // Update placholder with translated string
         config.placeholder = i18n.label_placeholder;
 
-        if (templateResult) {
-            config.templateResult = this.getTemplate(templateResult);
-        } else {
-            config.templateResult = this.getTemplate('defaultResultTemplate');
-        }
+        // Register templateResult
+        setSelect2Template(config, "templateResult",
+                           this.getTemplate(templateResult, "defaultResultTemplate"));
 
-        if (templateSelection) {
-            config.templateSelection = this.getTemplate(templateSelection);
-        }
+        // Register templateSelection
+        setSelect2Template(config, "templateSelection",
+                           this.getTemplate(templateSelection, "defaultSelectionTemplate"));
 
         // Add and Update config for remote data
         if (ajaxOptions) {
@@ -114,7 +123,7 @@ window.ftwKeywordWidget = function($) {
             });
             newTermsField.val(newSelectedTerms.join('\n'));
         }).parent().addClass(config.tags ? 'select2tags' : '');
-    };
+    }
 
     self.initWidget = initWidget;
     self.registerTemplate = registerTemplate;
@@ -122,12 +131,12 @@ window.ftwKeywordWidget = function($) {
     self.init = init;
 
     return self;
-}(jQuery);
+}(jQuery));
 
 window.ftwKeywordWidget.init();
 
 $(window).load(function(){
-  if ($().select2 === undefined) {
+  if ($.fn.select2 === undefined) {
       console.warn('You need to make sure, that select2 jquery plugin is loaded!');
   } else {
     $('.keyword-widget:visible').each(function(index, widget){
