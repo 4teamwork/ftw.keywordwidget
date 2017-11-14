@@ -183,15 +183,20 @@ You can define your own templates for each plone-widget or you replace the defau
 all your used keywordwidgets.
 
 First of all, you need to create a new templates (take a look at the select2-documentation to
-see what a template is in the select2-context).
+see what a template is in the select2-context). Wrap it into a constructor-function to get access
+to the widget itself (context-aware).
 
 .. code:: javascript
 
-    function myPurpleTemplate(data) {
-        return $('<span style="background-color:purple" />').text(data.text);
+    function myPurpleTemplate(widget) {
+        return function(data) {
+            return $('<span style="background-color:purple" />').text(data.text);
+        }
     }
-    function myBlueTemplate(data) {
-        return $('<span style="background-color:blue" />').text(data.text);
+    function myBlueTemplate(widget) {
+        return function(data) {
+            return $('<span style="background-color:blue" />').text(data.text);
+        }
     }
 
 then you need to register it
