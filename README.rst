@@ -11,6 +11,7 @@ Introduction
 3. Render a additional ``New Entry`` textarea for new terms.
 4. Uses tags feature of select 2 to add new keywords.
 5. A async option to get the selectable options with the select2 ajax options.
+6. Custom templates for results and selected items
 
 The widget supports schema.Choice, schema.Tuple and schema.List fields.
 
@@ -26,8 +27,8 @@ In DX "Subject" is a accessor for "subject", which returns utf-8.
 The Plone KeywordsVocabulary builds it's terms using the catalog value, which is utf-8 in case of the Subject index. By convention indexed values should be always utf-8 and DX values should always be unicode.
 
 This actually means in the case of the KeywordsVocabulary the value needs to be stored as utf-8, because the vocabulary values are encoded as utf-8.
-The SequenceWidget fieldToWidget converter has a sanity check included, which makes sure only field values, which are also in vocabulary are computed. 
-And this means if you store new terms as unicode values, the whole thing falls apart. Currently the widget makes sure to work perfectly with the "Subject" index, which relays on utf-8 values, which is not common with DX types. 
+The SequenceWidget fieldToWidget converter has a sanity check included, which makes sure only field values, which are also in vocabulary are computed.
+And this means if you store new terms as unicode values, the whole thing falls apart. Currently the widget makes sure to work perfectly with the "Subject" index, which relays on utf-8 values, which is not common with DX types.
 
 Beside of the primary Use-Case, the widget also supports vocabularies, with unicode values, but this needs to be configured separately on the widget.
 New terms are than added as unicode instead of utf-8.
@@ -175,7 +176,62 @@ But you it's not installed with the default profile, because you may already hav
 select2 JS installed for other purpose.
 If you need select2 you can install the ``ftw.keywordwidget Install select2 jquery plugin`` profile.
 
+Templating
+----------
 
+You can define your own templates for each plone-widget or you replace the default widget for
+all your used keywordwidgets.
+
+First of all, you need to create a new templates (take a look at the select2-documentation to
+see what a template is in the select2-context).
+
+.. code:: javascript
+
+    function myPurpleTemplate(data) {
+        return $('<span style="background-color:purple" />').text(data.text);
+    }
+    function myBlueTemplate(data) {
+        return $('<span style="background-color:blue" />').text(data.text);
+    }
+
+then you need to register it
+
+
+.. code:: javascript
+
+    $(document).on('ftwKeywordWidgetInit', function(e) {
+      window.ftwKeywordWidget.registerTemplate('purple', myPurpleTemplate);
+      window.ftwKeywordWidget.registerTemplate('blue', myBlueTemplate);
+    });
+
+
+and use it in your desired widgets
+
+.. code:: python
+
+    directives.widget('colours', KeywordFieldWidget,
+                      template_selection='purple'
+                      template_result='blue')
+    colours = schema.Tuple(
+        title=u'Some colours',
+        value_type=ChoicePlus(source=MySourceBinder()),
+        required=False,
+        missing_value=(),
+    )
+
+If you wish to override the default-template, just register a template for
+
+`defaultResultTemplate` or `defaultSelectionTemplate` depending on which defaulttemplate you want to override.
+
+.. code:: javascript
+
+    function myBlackTemplate(data) {
+        return $('<span style="background-color:black" />').text(data.text);
+    }
+
+    $(document).on('ftwKeywordWidgetInit', function(e) {
+      window.ftwKeywordWidget.registerTemplate('defaultResultTemplate', myBlackTemplate);
+    });
 
 Development
 ===========
