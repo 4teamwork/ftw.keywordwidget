@@ -8,14 +8,16 @@ window.ftwKeywordWidget = (function($) {
     function init() {
 
         // Special template to indicate new terms
-        registerTemplate("defaultResultTemplate", function (data) {
+        registerTemplate("defaultResultTemplate", function (widget) {
+          return function (data) {
             if (!data.loading && !data._resultId) {
                 return $('<span class="newTag" />')
                 .text(data.text)
-                .append($('<span class="newTagHint" />').text(i18n.label_new));
+                .append($('<span class="newTagHint" />').text(widget.data("select2config").i18n.label_new));
             } else {
                 return data.text;
             }
+          };
         });
 
         $(document).trigger("ftwKeywordWidgetInit");
@@ -33,11 +35,11 @@ window.ftwKeywordWidget = (function($) {
         templates[name] = templateFunction;
     }
 
-    function getTemplate(name, fallback) {
+    function getTemplate(name, fallback, widget) {
         if (templates.hasOwnProperty(name)) {
-            return templates[name];
+            return templates[name](widget);
         } else if (templates.hasOwnProperty(fallback)) {
-            return templates[fallback];
+            return templates[fallback](widget);
         }
         return null;
     }
@@ -81,11 +83,11 @@ window.ftwKeywordWidget = (function($) {
 
         // Register templateResult
         setSelect2Template(config, "templateResult",
-                           this.getTemplate(templateResult, "defaultResultTemplate"));
+                           this.getTemplate(templateResult, "defaultResultTemplate", widget));
 
         // Register templateSelection
         setSelect2Template(config, "templateSelection",
-                           this.getTemplate(templateSelection, "defaultSelectionTemplate"));
+                           this.getTemplate(templateSelection, "defaultSelectionTemplate", widget));
 
         // Add and Update config for remote data
         if (ajaxOptions) {
