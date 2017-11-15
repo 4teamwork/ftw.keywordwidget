@@ -125,6 +125,8 @@ window.ftwKeywordWidget = (function($) {
             });
             newTermsField.val(newSelectedTerms.join('\n'));
         }).parent().addClass(config.tags ? 'select2tags' : '');
+
+        $(document).trigger("ftwKeywordWidgetInitWidget", [widget]);
     }
 
     self.initWidget = initWidget;

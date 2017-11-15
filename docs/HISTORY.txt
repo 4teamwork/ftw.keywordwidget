@@ -5,8 +5,8 @@ Changelog
 1.4.1 (unreleased)
 ------------------
 
-- Nothing changed yet.
-
+- Add event after initializing a widget.
+  [elioschmutz]
 
 1.4.0 (2017-11-14)
 ------------------
