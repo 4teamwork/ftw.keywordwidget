@@ -61,6 +61,26 @@ class TestKeywordWidgetWithRequiredFields(FunctionalTestCase):
         self.assertEqual(['N\xc3\xa4h'], browser.context.subject)
 
 
+class TestAsyncKeywordWidgetWithOptionalChoiceField(FunctionalTestCase):
+
+    def setUp(self):
+        super(TestAsyncKeywordWidgetWithOptionalChoiceField, self).setUp()
+        self.grant('Manager')
+        additional_behaviors = [
+            'ftw.keywordwidget.tests.behavior.IHaveARequiredTextField',
+            'ftw.keywordwidget.tests.behavior.IOptionalChoiceField',
+        ]
+        self.setup_fti(additional_behaviors=additional_behaviors)
+
+    @browsing
+    def test_do_not_raise_error_if_save_form_with_untouched_optional_choice_field(self, browser):
+        browser.login().open(view='++add++SampleContent')
+        browser.debug()
+        browser.fill({'Title': 'foo'}).submit()
+        import pdb; pdb.set_trace()
+        self.assertEqual(['Item created'], info_messages())
+
+
 class TestKeywordWidget(FunctionalTestCase):
 
     def setUp(self):
