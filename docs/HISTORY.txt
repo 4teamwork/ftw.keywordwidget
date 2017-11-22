@@ -5,7 +5,9 @@ Changelog
 1.4.2 (unreleased)
 ------------------
 
-- Nothing changed yet.
+- Fix an issue where the term-lookup will fail after the form-validation.
+  https://github.com/4teamwork/ftw.keywordwidget/issues/27
+  [elioschmutz]
 
 
 1.4.1 (2017-11-15)
