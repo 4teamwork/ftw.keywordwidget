@@ -313,7 +313,7 @@ class KeywordWidget(SelectWidget):
                  'selected': selected})
 
         if self.async:
-            terms = [self.terms.getTermByToken(v) for v in self.value]
+            terms = [self.terms.getTermByToken(v) for v in self.value if v]
         else:
             terms = self.terms
 
