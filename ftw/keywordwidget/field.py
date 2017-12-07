@@ -10,7 +10,8 @@ from zope.schema.vocabulary import VocabularyRegistryError
 @implementer(IChoice, IFromUnicode)
 class ChoicePlus(Choice):
     """A choice field, which allows additional terms.
-    Example: Allow new tags for catalog based vocabulary"""
+    Example: Allow new tags for catalog based vocabulary.
+    """
 
     allow_new = None
 

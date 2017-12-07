@@ -29,8 +29,8 @@ def is_list_type_field(field):
         return True
     elif isinstance(field, schema.Tuple):
         return True
-    else:
-        return False
+
+    return False
 
 
 def as_keyword_token(value):
@@ -78,8 +78,8 @@ class KeywordWidget(SelectWidget):
     hidden_template = ViewPageTemplateFile('templates/keyword_hidden.pt')
 
     def __init__(self, request, js_config=None, add_permission=None,
-                 new_terms_as_unicode=False, async=False, template_selection='',
-                 template_result=''):
+                 new_terms_as_unicode=False, async=False,
+                 template_selection='', template_result=''):
         self.request = request
         self.js_config = js_config
         self.new_terms_as_unicode = new_terms_as_unicode
@@ -139,7 +139,7 @@ class KeywordWidget(SelectWidget):
             source = source(self.context)
             if IQuerySource.providedBy(source):
                 return
-        raise(TypeError('A IContextSourceBinder with IQuerySource is needed'))
+        raise TypeError('A IContextSourceBinder with IQuerySource is needed')
 
     def update(self):
         self.get_choice_field()
@@ -156,26 +156,40 @@ class KeywordWidget(SelectWidget):
             has_permission = api.user.has_permission(
                 self.add_permission,
                 obj=self.context)
-            self.field.value_type.allow_new = has_permission
+            api.portal.getRequest().allow_new = has_permission
 
     def update_js_config(self):
         # Sane default config
         default_config = {
             'i18n': {
-                'label_placeholder': translate(self.promptMessage,
-                                               context=self.request),
-                'label_no_result': translate(self.promptNoresultFound,
-                                             context=self.request),
-                'label_new': translate(self.label_new,
-                                       context=self.request),
-                'label_searching': translate(self.label_searching,
-                                             context=self.request),
-                'label_loading_more': translate(self.label_loading_more,
-                                                context=self.request),
-                'label_tooshort_prefix': translate(self.label_tooshort_prefix,
-                                                   context=self.request),
-                'label_tooshort_postfix': translate(self.label_tooshort_postfix,
-                                                    context=self.request),
+                'label_placeholder': translate(
+                    self.promptMessage,
+                    context=self.request,
+                    ),
+                'label_no_result': translate(
+                    self.promptNoresultFound,
+                    context=self.request,
+                    ),
+                'label_new': translate(
+                    self.label_new,
+                    context=self.request,
+                    ),
+                'label_searching': translate(
+                    self.label_searching,
+                    context=self.request,
+                    ),
+                'label_loading_more': translate(
+                    self.label_loading_more,
+                    context=self.request,
+                    ),
+                'label_tooshort_prefix': translate(
+                    self.label_tooshort_prefix,
+                    context=self.request,
+                    ),
+                'label_tooshort_postfix': translate(
+                    self.label_tooshort_postfix,
+                    context=self.request,
+                    ),
             },
             'width': '300px',
             'allowClear': not self.field.required and not self.multiple,
@@ -221,9 +235,9 @@ class KeywordWidget(SelectWidget):
 
     def show_add_term_field(self):
         if isinstance(self.choice_field, ChoicePlus):
-            return self.field.value_type.allow_new
-        else:
-            return False
+            return getattr(api.portal.getRequest(), 'allow_new', True)
+
+        return False
 
     def extract(self, default=NOVALUE):
         """See z3c.form.interfaces.IWidget.
@@ -282,7 +296,6 @@ class KeywordWidget(SelectWidget):
         The widget actually only renders the select values and not all
         possible values.
         """
-
         if self.terms is None:  # update() has not been called yet
             return ()
         items = []
@@ -303,13 +316,13 @@ class KeywordWidget(SelectWidget):
             selected = self.isSelected(term)
             if selected and term.token in ignored:
                 ignored.remove(term.token)
-            id = '%s-%s%i' % (self.id, prefix, idx)
+            item_id = '%s-%s%i' % (self.id, prefix, idx)
             content = term.token
             if ITitledTokenizedTerm.providedBy(term):
                 content = translate(
                     term.title, context=self.request, default=term.title)
             items.append(
-                {'id': id, 'value': term.token, 'content': content,
+                {'id': item_id, 'value': term.token, 'content': content,
                  'selected': selected})
 
         if self.async:
