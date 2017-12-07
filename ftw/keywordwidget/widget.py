@@ -67,7 +67,6 @@ class KeywordWidget(SelectWidget):
     config_json = ''
     ajax_options_json = ''
     choice_field = None
-    add_permission = None
     new_terms_as_unicode = None
     async = False
     template_selection = ''
@@ -77,9 +76,8 @@ class KeywordWidget(SelectWidget):
     input_template = ViewPageTemplateFile('templates/keyword_input.pt')
     hidden_template = ViewPageTemplateFile('templates/keyword_hidden.pt')
 
-    def __init__(self, request, js_config=None, add_permission=None,
-                 new_terms_as_unicode=False, async=False,
-                 template_selection='', template_result=''):
+    def __init__(self, request, js_config=None, new_terms_as_unicode=False,
+                 async=False, template_selection='', template_result=''):
         self.request = request
         self.js_config = js_config
         self.new_terms_as_unicode = new_terms_as_unicode
@@ -87,8 +85,9 @@ class KeywordWidget(SelectWidget):
         self.template_result = template_result
         self.template_selection = template_selection
 
-        self.add_permission = (add_permission or
-                               'ftw.keywordwidget: Add new term')
+        # Do not make this dynamic or you will have to handle flip-flops
+        # between multiple widgets - we cache the security on the request
+        self.add_permission = 'ftw.keywordwidget: Add new term'
 
     def render(self):
         if self.mode == INPUT_MODE:
@@ -153,10 +152,10 @@ class KeywordWidget(SelectWidget):
         self.update_js_config()
 
         if isinstance(self.choice_field, ChoicePlus):
-            has_permission = api.user.has_permission(
+            api.portal.getRequest().allow_new = api.user.has_permission(
                 self.add_permission,
-                obj=self.context)
-            api.portal.getRequest().allow_new = has_permission
+                obj=self.context,
+                )
 
     def update_js_config(self):
         # Sane default config
@@ -235,7 +234,10 @@ class KeywordWidget(SelectWidget):
 
     def show_add_term_field(self):
         if isinstance(self.choice_field, ChoicePlus):
-            return getattr(api.portal.getRequest(), 'allow_new', True)
+            return api.user.has_permission(
+                self.add_permission,
+                obj=self.context,
+                )
 
         return False
 

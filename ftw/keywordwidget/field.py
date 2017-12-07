@@ -1,3 +1,4 @@
+from plone import api
 from zope.interface import implementer
 from zope.schema import Choice
 from zope.schema.interfaces import ConstraintNotSatisfied
@@ -12,12 +13,6 @@ class ChoicePlus(Choice):
     """A choice field, which allows additional terms.
     Example: Allow new tags for catalog based vocabulary.
     """
-
-    allow_new = None
-
-    def __init__(self, values=None, vocabulary=None, source=None, **kw):
-        super(ChoicePlus, self).__init__(values, vocabulary, source, **kw)
-        self.allow_new = True
 
     def _validate(self, value):
         # Pass all validations during initialization
@@ -34,7 +29,7 @@ class ChoicePlus(Choice):
                 raise ValueError("Can't validate value without vocabulary")
 
         # The widget can control this attribute too
-        if self.allow_new:
+        if getattr(api.portal.getRequest(), 'allow_new', True):
             # Allow new values!
             return
         else:

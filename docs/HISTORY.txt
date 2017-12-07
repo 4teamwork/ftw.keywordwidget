@@ -5,7 +5,12 @@ Changelog
 1.4.3 (unreleased)
 ------------------
 
-- Nothing changed yet.
+- BREAKING CHANGE: Disallow setting a custom permission at widget init time.
+  [Rotonen]
+
+- Move the accidentally-persisting permission check from the field to the
+  widget and cache the result in the request.
+  [Rotonen]
 
 
 1.4.2 (2017-11-23)
