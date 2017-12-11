@@ -29,8 +29,8 @@ def is_list_type_field(field):
         return True
     elif isinstance(field, schema.Tuple):
         return True
-    else:
-        return False
+
+    return False
 
 
 def as_keyword_token(value):
@@ -67,7 +67,6 @@ class KeywordWidget(SelectWidget):
     config_json = ''
     ajax_options_json = ''
     choice_field = None
-    add_permission = None
     new_terms_as_unicode = None
     async = False
     template_selection = ''
@@ -77,9 +76,8 @@ class KeywordWidget(SelectWidget):
     input_template = ViewPageTemplateFile('templates/keyword_input.pt')
     hidden_template = ViewPageTemplateFile('templates/keyword_hidden.pt')
 
-    def __init__(self, request, js_config=None, add_permission=None,
-                 new_terms_as_unicode=False, async=False, template_selection='',
-                 template_result=''):
+    def __init__(self, request, js_config=None, new_terms_as_unicode=False,
+                 async=False, template_selection='', template_result=''):
         self.request = request
         self.js_config = js_config
         self.new_terms_as_unicode = new_terms_as_unicode
@@ -87,8 +85,9 @@ class KeywordWidget(SelectWidget):
         self.template_result = template_result
         self.template_selection = template_selection
 
-        self.add_permission = (add_permission or
-                               'ftw.keywordwidget: Add new term')
+        # Do not make this dynamic or you will have to handle flip-flops
+        # between multiple widgets - we cache the security on the request
+        self.add_permission = 'ftw.keywordwidget: Add new term'
 
     def render(self):
         if self.mode == INPUT_MODE:
@@ -139,7 +138,7 @@ class KeywordWidget(SelectWidget):
             source = source(self.context)
             if IQuerySource.providedBy(source):
                 return
-        raise(TypeError('A IContextSourceBinder with IQuerySource is needed'))
+        raise TypeError('A IContextSourceBinder with IQuerySource is needed')
 
     def update(self):
         self.get_choice_field()
@@ -153,29 +152,43 @@ class KeywordWidget(SelectWidget):
         self.update_js_config()
 
         if isinstance(self.choice_field, ChoicePlus):
-            has_permission = api.user.has_permission(
+            api.portal.getRequest().allow_new = api.user.has_permission(
                 self.add_permission,
-                obj=self.context)
-            self.field.value_type.allow_new = has_permission
+                obj=self.context,
+                )
 
     def update_js_config(self):
         # Sane default config
         default_config = {
             'i18n': {
-                'label_placeholder': translate(self.promptMessage,
-                                               context=self.request),
-                'label_no_result': translate(self.promptNoresultFound,
-                                             context=self.request),
-                'label_new': translate(self.label_new,
-                                       context=self.request),
-                'label_searching': translate(self.label_searching,
-                                             context=self.request),
-                'label_loading_more': translate(self.label_loading_more,
-                                                context=self.request),
-                'label_tooshort_prefix': translate(self.label_tooshort_prefix,
-                                                   context=self.request),
-                'label_tooshort_postfix': translate(self.label_tooshort_postfix,
-                                                    context=self.request),
+                'label_placeholder': translate(
+                    self.promptMessage,
+                    context=self.request,
+                    ),
+                'label_no_result': translate(
+                    self.promptNoresultFound,
+                    context=self.request,
+                    ),
+                'label_new': translate(
+                    self.label_new,
+                    context=self.request,
+                    ),
+                'label_searching': translate(
+                    self.label_searching,
+                    context=self.request,
+                    ),
+                'label_loading_more': translate(
+                    self.label_loading_more,
+                    context=self.request,
+                    ),
+                'label_tooshort_prefix': translate(
+                    self.label_tooshort_prefix,
+                    context=self.request,
+                    ),
+                'label_tooshort_postfix': translate(
+                    self.label_tooshort_postfix,
+                    context=self.request,
+                    ),
             },
             'width': '300px',
             'allowClear': not self.field.required and not self.multiple,
@@ -221,9 +234,12 @@ class KeywordWidget(SelectWidget):
 
     def show_add_term_field(self):
         if isinstance(self.choice_field, ChoicePlus):
-            return self.field.value_type.allow_new
-        else:
-            return False
+            return api.user.has_permission(
+                self.add_permission,
+                obj=self.context,
+                )
+
+        return False
 
     def extract(self, default=NOVALUE):
         """See z3c.form.interfaces.IWidget.
@@ -282,7 +298,6 @@ class KeywordWidget(SelectWidget):
         The widget actually only renders the select values and not all
         possible values.
         """
-
         if self.terms is None:  # update() has not been called yet
             return ()
         items = []
@@ -303,13 +318,13 @@ class KeywordWidget(SelectWidget):
             selected = self.isSelected(term)
             if selected and term.token in ignored:
                 ignored.remove(term.token)
-            id = '%s-%s%i' % (self.id, prefix, idx)
+            item_id = '%s-%s%i' % (self.id, prefix, idx)
             content = term.token
             if ITitledTokenizedTerm.providedBy(term):
                 content = translate(
                     term.title, context=self.request, default=term.title)
             items.append(
-                {'id': id, 'value': term.token, 'content': content,
+                {'id': item_id, 'value': term.token, 'content': content,
                  'selected': selected})
 
         if self.async:
