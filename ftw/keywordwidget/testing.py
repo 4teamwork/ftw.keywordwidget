@@ -2,6 +2,7 @@ from ftw.builder.testing import BUILDER_LAYER
 from ftw.builder.testing import functional_session_factory
 from ftw.builder.testing import set_builder_session_factory
 from ftw.keywordwidget.behavior import IKeywordUseCases
+from ftw.testing import IS_PLONE_5
 from ftw.testing.layer import COMPONENT_REGISTRY_ISOLATION
 from plone.app.testing import applyProfile
 from plone.app.testing import FunctionalTesting
@@ -46,6 +47,9 @@ class FtwLayer(PloneSandboxLayer):
     def setUpPloneSite(self, portal):
         applyProfile(portal, 'ftw.keywordwidget:default')
         _setup_catalog_for_tests(portal)
+
+        if IS_PLONE_5:
+            applyProfile(portal, 'plone.app.contenttypes:default')
 
 
 FTW_FIXTURE = FtwLayer()
