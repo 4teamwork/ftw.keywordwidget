@@ -100,7 +100,7 @@ Further you can configure the select2 plugin as you wish.
 Compatibility
 -------------
 
-Plone 4.3.x
+Plone 4.3.x and 5.1.x
 
 
 Installation
