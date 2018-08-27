@@ -2,7 +2,7 @@ Changelog
 =========
 
 
-1.5.1 (unreleased)
+1.5.1 (2018-08-27)
 ------------------
 
 - Remove improper parent of parent validations from ChoicePlus.
