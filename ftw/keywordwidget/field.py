@@ -1,6 +1,7 @@
 from plone import api
 from zope.interface import implementer
 from zope.schema import Choice
+from zope.schema._bootstrapinterfaces import WrongType
 from zope.schema.interfaces import ConstraintNotSatisfied
 from zope.schema.interfaces import IChoice
 from zope.schema.interfaces import IFromUnicode
@@ -19,7 +20,12 @@ class ChoicePlus(Choice):
         if self._init_field:
             return
 
-        super(Choice, self)._validate(value)
+        if self._type is not None and not isinstance(value, self._type):
+            raise WrongType(value, self._type, self.__name__)
+
+        if not self.constraint(value):
+            raise ConstraintNotSatisfied(value)
+
         vocabulary = self.vocabulary
         if vocabulary is None:
             vr = getVocabularyRegistry()

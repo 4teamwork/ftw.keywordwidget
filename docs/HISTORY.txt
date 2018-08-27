@@ -5,7 +5,8 @@ Changelog
 1.5.1 (unreleased)
 ------------------
 
-- Nothing changed yet.
+- Remove improper parent of parent validations from ChoicePlus.
+  [Rotonen]
 
 
 1.5.0 (2017-12-14)
