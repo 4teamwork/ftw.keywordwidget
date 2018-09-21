@@ -2,7 +2,7 @@ Changelog
 =========
 
 
-1.5.2 (unreleased)
+1.5.2 (2018-09-21)
 ------------------
 
 - Fix french translations. [phgross]
