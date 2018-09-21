@@ -40,7 +40,7 @@ msgstr "Aucun résultat trouvé"
 
 #: ./ftw/keywordwidget/widget.py:53
 msgid "Please enter "
-msgstr "Veuillez saisir"
+msgstr "Veuillez saisir "
 
 #: ./ftw/keywordwidget/widget.py:51
 msgid "Searching..."
