@@ -5,6 +5,18 @@
              interface='Products.CMFPlone.interfaces.IResourceRegistry'
              remove="True"/>
 
+    <records prefix="plone.resources/keywordwidget_select2_js"
+             interface='Products.CMFPlone.interfaces.IResourceRegistry'
+             remove="True"/>
+
+    <records prefix="plone.resources/keywordwidget_js"
+             interface='Products.CMFPlone.interfaces.IResourceRegistry'
+             remove="True"/>
+
+    <records prefix="plone.resources/keywordwidget_css"
+             interface='Products.CMFPlone.interfaces.IResourceRegistry'
+             remove="True"/>
+
     <records prefix="plone.bundles/ftw-keywordwidget-resources"
              interface='Products.CMFPlone.interfaces.IBundleRegistry'
              remove="True"/>
