@@ -114,13 +114,11 @@
 
     <include package="ftw.upgrade" file="meta.zcml" />
     <upgrade-step:directory
-        zcml:condition="not-have plone-5"
         profile="ftw.keywordwidget:default"
         directory="./upgrades/default"
         />
 
     <upgrade-step:directory
-        zcml:condition="not-have plone-5"
         profile="ftw.keywordwidget:select2js"
         directory="./upgrades/select2js"
         />
