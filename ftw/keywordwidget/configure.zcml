@@ -75,24 +75,6 @@
         for="Products.CMFPlone.interfaces.IMigratingPloneSiteRoot"
         />
 
-    <genericsetup:registerProfile
-        zcml:condition="have plone-5"
-        name="select2js"
-        title="select2js"
-        directory="profiles/select2js_plone5"
-        description="Register ftw.keywordwidget generally"
-        provides="Products.GenericSetup.interfaces.EXTENSION"
-        />
-
-    <genericsetup:registerProfile
-        zcml:condition="have plone-5"
-        name="uninstall_select2js"
-        title="Uninstall ftw.select2js"
-        directory="profiles/uninstall_select2js_plone5"
-        provides="Products.GenericSetup.interfaces.EXTENSION"
-        for="Products.CMFPlone.interfaces.IMigratingPloneSiteRoot"
-        />
-
     <plone:behavior
         title="Categorization with keywordwidget"
         description="Adds keywords/tags/subjects"
@@ -119,6 +101,7 @@
         />
 
     <upgrade-step:directory
+        zcml:condition="not-have plone-5"
         profile="ftw.keywordwidget:select2js"
         directory="./upgrades/select2js"
         />
@@ -129,6 +112,5 @@
         class=".search.SearchSource"
         permission="zope2.View"
         />
-
 
 </configure>

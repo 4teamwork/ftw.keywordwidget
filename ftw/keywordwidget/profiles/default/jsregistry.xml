@@ -2,7 +2,7 @@
 <object name="portal_javascripts">
 
     <javascript
-        id="++resource++ftw.keywordwidget/js/keywordwidget.js"
+        id="++resource++ftw.keywordwidget/js/keywordwidget_4.x.js"
         enabled="True"
         authenticated="True"
         compression=""
