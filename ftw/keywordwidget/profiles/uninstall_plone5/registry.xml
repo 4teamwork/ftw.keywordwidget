@@ -2,15 +2,15 @@
 <registry>
 
     <records prefix="plone.resources/keywordwidget_javascript"
-             interface='Products.CMFPlone.interfaces.IResourceRegistry'
+             interface="Products.CMFPlone.interfaces.IResourceRegistry"
              remove="True"/>
 
     <records prefix="plone.resources/keywordwidget_css"
-             interface='Products.CMFPlone.interfaces.IResourceRegistry'
+             interface="Products.CMFPlone.interfaces.IResourceRegistry"
              remove="True"/>
 
     <records prefix="plone.bundles/ftw-keywordwidget-resources"
-             interface='Products.CMFPlone.interfaces.IBundleRegistry'
+             interface="Products.CMFPlone.interfaces.IBundleRegistry"
              remove="True"/>
 
 </registry>

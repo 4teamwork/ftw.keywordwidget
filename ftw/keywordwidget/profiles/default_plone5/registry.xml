@@ -1,13 +1,13 @@
 <registry>
 
     <records prefix="plone.resources/keywordwidget_javascript"
-             interface='Products.CMFPlone.interfaces.IResourceRegistry'>
+             interface="Products.CMFPlone.interfaces.IResourceRegistry">
         <value key="js">++resource++ftw.keywordwidget/js/keywordwidget_5.x.js</value>
         <value key="deps">jquery</value>
     </records>
 
     <records prefix="plone.resources/keywordwidget_css"
-             interface='Products.CMFPlone.interfaces.IResourceRegistry'>
+             interface="Products.CMFPlone.interfaces.IResourceRegistry">
         <value key="css">
             <element>++resource++ftw.keywordwidget/select2/dist/css/select2.min.css</element>
             <element>++resource++ftw.keywordwidget/css/select2.plone.css</element>
@@ -15,7 +15,7 @@
     </records>
 
     <records prefix="plone.bundles/ftw-keywordwidget-resources"
-             interface='Products.CMFPlone.interfaces.IBundleRegistry'>
+             interface="Products.CMFPlone.interfaces.IBundleRegistry">
         <value key="resources">
             <element>keywordwidget_javascript</element>
             <element>keywordwidget_css</element>

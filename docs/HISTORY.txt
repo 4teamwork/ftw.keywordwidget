@@ -6,7 +6,7 @@ Changelog
 ------------------
 
 - Add support for Plone 5.1.x. [mbaechtold]
-- Fit newer vers. of select2 into keywordwidget resources to prevent conflict
+- Fit newer version of select2 into keywordwidget resources to prevent conflict
   with an older vers. of select2 required by plone. [mathias.leimgruber, busykoala]
 
 
