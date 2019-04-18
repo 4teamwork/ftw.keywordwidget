@@ -2,7 +2,7 @@ Changelog
 =========
 
 
-1.5.3 (unreleased)
+2.0.0 (2019-04-18)
 ------------------
 
 - Add support for Plone 5.1.x. [mbaechtold]
