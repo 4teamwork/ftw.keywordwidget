@@ -32,13 +32,16 @@
     </configure>
 
     <genericsetup:registerProfile
+        zcml:condition="not-have plone-5"
         name="default"
-        title="ftw.keywordwidget default"
+        title="ftw.keywordwidget"
         directory="profiles/default"
+        description="Register ftw.keywordwidget generally"
         provides="Products.GenericSetup.interfaces.EXTENSION"
         />
 
     <genericsetup:registerProfile
+        zcml:condition="not-have plone-5"
         name="select2js"
         title="ftw.keywordwidget Install select2 jquery plugin"
         directory="profiles/select2js"
@@ -46,9 +49,28 @@
         />
 
     <genericsetup:registerProfile
+        zcml:condition="not-have plone-5"
         name="uninstall"
         title="ftw.keywordwidget : uninstall"
         directory="profiles/uninstall"
+        provides="Products.GenericSetup.interfaces.EXTENSION"
+        for="Products.CMFPlone.interfaces.IMigratingPloneSiteRoot"
+        />
+
+    <genericsetup:registerProfile
+        zcml:condition="have plone-5"
+        name="default"
+        title="ftw.keywordwidget"
+        directory="profiles/default_plone5"
+        description="Register ftw.keywordwidget generally"
+        provides="Products.GenericSetup.interfaces.EXTENSION"
+        />
+
+    <genericsetup:registerProfile
+        zcml:condition="have plone-5"
+        name="uninstall"
+        title="Uninstall ftw.keywordwidget"
+        directory="profiles/uninstall_plone5"
         provides="Products.GenericSetup.interfaces.EXTENSION"
         for="Products.CMFPlone.interfaces.IMigratingPloneSiteRoot"
         />
@@ -77,7 +99,9 @@
         profile="ftw.keywordwidget:default"
         directory="./upgrades/default"
         />
+
     <upgrade-step:directory
+        zcml:condition="not-have plone-5"
         profile="ftw.keywordwidget:select2js"
         directory="./upgrades/select2js"
         />
@@ -88,6 +112,5 @@
         class=".search.SearchSource"
         permission="zope2.View"
         />
-
 
 </configure>

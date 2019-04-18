@@ -1,7 +1,7 @@
 from ftw.keywordwidget.field import ChoicePlus
 from ftw.keywordwidget.vocabularies import KeywordSearchableSourceBinder
 from ftw.keywordwidget.widget import KeywordFieldWidget
-from plone.app.dexterity import PloneMessageFactory as _PMF
+from Products.CMFPlone import PloneMessageFactory as _PMF
 from plone.app.dexterity.behaviors.metadata import MetadataBase
 from plone.autoform import directives
 from plone.autoform.interfaces import IFormFieldProvider

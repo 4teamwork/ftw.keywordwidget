@@ -100,8 +100,12 @@ Further you can configure the select2 plugin as you wish.
 Compatibility
 -------------
 
-Plone 4.3.x
+Plone 4.3.x and 5.1.x
 
+In Plone 5.1.x we included the select2 javascript resources in the
+keywordwidget ones and patched things to prevent conflicts with an older
+version of select2 included by plone itself.
+This is a point of failure as the surrounding is changing in future!
 
 Installation
 ============

@@ -5,7 +5,9 @@ Changelog
 1.5.3 (unreleased)
 ------------------
 
-- Nothing changed yet.
+- Add support for Plone 5.1.x. [mbaechtold]
+- Fit newer version of select2 into keywordwidget resources to prevent conflict
+  with an older vers. of select2 required by plone. [mathias.leimgruber, busykoala]
 
 
 1.5.2 (2018-09-21)
