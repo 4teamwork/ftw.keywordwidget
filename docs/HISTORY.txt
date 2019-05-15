@@ -5,7 +5,7 @@ Changelog
 2.0.1 (unreleased)
 ------------------
 
-- Nothing changed yet.
+- Fix an error where it was no longer possible to add tags after another async widget have been used. [elioschmutz]
 
 
 2.0.0 (2019-04-18)

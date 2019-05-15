@@ -149,13 +149,14 @@ class KeywordWidget(SelectWidget):
         super(KeywordWidget, self).update()
 
         self.update_multivalued_property()
-        self.update_js_config()
 
         if isinstance(self.choice_field, ChoicePlus):
             api.portal.getRequest().allow_new = api.user.has_permission(
                 self.add_permission,
                 obj=self.context,
                 )
+
+        self.update_js_config()
 
     def update_js_config(self):
         # Sane default config
