@@ -4,7 +4,9 @@ from Products.CMFCore.utils import getToolByName
 from Products.CMFPlone.utils import safe_unicode
 from z3c.formwidget.query.interfaces import IQuerySource
 from zope.component.hooks import getSite
+from zope.interface import alsoProvides
 from zope.interface import implementer
+from zope.interface import Interface
 from zope.schema.interfaces import IContextSourceBinder
 from zope.schema.interfaces import IVocabularyFactory
 from zope.schema.vocabulary import SimpleTerm
@@ -50,6 +52,45 @@ class UnicodeKeywordsVocabulary(object):
 UnicodeKeywordsVocabularyFactory = UnicodeKeywordsVocabulary()
 
 
+class IKeywordWidgetAddableSource(Interface):
+
+    def getTermByToken(token):
+        """Checks whether the term exists in the current instance
+        of the vocabulary. This allows new terms that have been added
+        through addTermToInstance to pass validation.
+        """
+
+
+class KeywordWidgetAddableSourceWrapper(object):
+    """Wrapper class used to allow adding new terms in async mode
+    to a source vocabulary
+    """
+
+    def __init__(self, source):
+        # Adding an interface to source is not ideal, as this means that
+        # wrapping actually modifies source. This is not a problem though
+        # as the wrapper is called in the binder, when the vocabulary is
+        # instantiated.
+        alsoProvides(source, IKeywordWidgetAddableSource)
+        self._source = source
+        self.instance_vocabulary = SimpleVocabulary([])
+
+    def getTermByToken(self, token):
+        """Checks whether the term exists in the current instance_vocabulary.
+        This allows new terms that have been added in this request to pass
+        validation.
+        """
+        try:
+            return self._source.getTermByToken(token)
+        except LookupError:
+            return self.instance_vocabulary.getTermByToken(token)
+
+    def __getattr__(self, attr):
+        if attr in self.__dict__:
+            return getattr(self, attr)
+        return getattr(self._source, attr)
+
+
 @implementer(IQuerySource)
 class KeywordSearchableSource(object):
     """This example of a IQuerySource is taken from the
@@ -88,3 +129,10 @@ class KeywordSearchableSourceBinder(object):
 
     def __call__(self, context):
         return KeywordSearchableSource(context)
+
+
+@implementer(IContextSourceBinder)
+class KeywordSearchableAndAddableSourceBinder(object):
+
+    def __call__(self, context):
+        return KeywordWidgetAddableSourceWrapper(KeywordSearchableSource(context))

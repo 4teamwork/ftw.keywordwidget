@@ -1,11 +1,12 @@
 from ftw.keywordwidget.field import ChoicePlus
+from ftw.keywordwidget.vocabularies import KeywordSearchableAndAddableSourceBinder
 from ftw.keywordwidget.vocabularies import KeywordSearchableSourceBinder
 from ftw.keywordwidget.widget import KeywordFieldWidget
-from Products.CMFPlone import PloneMessageFactory as _PMF
 from plone.app.dexterity.behaviors.metadata import MetadataBase
 from plone.autoform import directives
 from plone.autoform.interfaces import IFormFieldProvider
 from plone.supermodel import model
+from Products.CMFPlone import PloneMessageFactory as _PMF
 from z3c.form.interfaces import IEditForm, IAddForm
 from zope import schema
 from zope.interface import alsoProvides
@@ -103,6 +104,17 @@ class IKeywordUseCases(model.Schema):
         value_type=schema.Choice(
             title=u"Multiple",
             source=KeywordSearchableSourceBinder(),
+            ),
+        required=False,
+        missing_value=(),
+    )
+
+    directives.widget('async_addable', KeywordFieldWidget, async=True)
+    async_addable = schema.Tuple(
+        title=u'async_addable',
+        value_type=ChoicePlus(
+            title=u"Multiple",
+            source=KeywordSearchableAndAddableSourceBinder(),
             ),
         required=False,
         missing_value=(),
