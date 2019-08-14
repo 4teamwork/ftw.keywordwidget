@@ -91,6 +91,9 @@ class KeywordWidgetAddableSourceWrapper(object):
             return getattr(self, attr)
         return getattr(self._source, attr)
 
+    def __iter__(self):
+        return iter(self._source)
+
 
 @implementer(IQuerySource)
 class KeywordSearchableSource(object):
