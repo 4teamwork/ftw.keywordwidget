@@ -1,6 +1,6 @@
-from binascii import b2a_qp
 from ftw.keywordwidget import _
 from ftw.keywordwidget.field import ChoicePlus
+from ftw.keywordwidget.utils import as_keyword_token
 from ftw.keywordwidget.utils import safe_utf8
 from ftw.keywordwidget.vocabularies import IKeywordWidgetAddableSource
 from plone import api
@@ -32,12 +32,6 @@ def is_list_type_field(field):
         return True
 
     return False
-
-
-def as_keyword_token(value):
-    if isinstance(value, unicode):
-        value = value.encode('utf-8')
-    return b2a_qp(value)
 
 
 class IKeywordWidget(ISelectWidget):

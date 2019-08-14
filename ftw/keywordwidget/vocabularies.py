@@ -1,5 +1,6 @@
 from binascii import b2a_qp
 from ftw.keywordwidget.utils import safe_utf8
+from ftw.keywordwidget.utils import as_keyword_token
 from Products.CMFCore.utils import getToolByName
 from Products.CMFPlone.utils import safe_unicode
 from z3c.formwidget.query.interfaces import IQuerySource
@@ -102,7 +103,7 @@ class KeywordSearchableSource(object):
         catalog = getToolByName(context, 'portal_catalog')
         self.keywords = catalog.uniqueValuesFor('Subject')
         self.vocab = SimpleVocabulary.fromItems(
-            [(x, x) for x in self.keywords])
+            [(as_keyword_token(x), x) for x in self.keywords])
 
     def __contains__(self, term):
         return self.vocab.__contains__(term)
