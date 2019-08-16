@@ -266,7 +266,7 @@ class KeywordWidget(SelectWidget):
             # It's only possible to add new terms in async mode if the source
             # implements IKeywordWidgetAddableSource
             return self.terms
-        elif self.async and IKeywordWidgetAddableSource.providedBy(vocabulary):
+        elif IKeywordWidgetAddableSource.providedBy(vocabulary):
             simple_vocabulary = self.terms.terms.instance_vocabulary
         else:
             simple_vocabulary = self.terms.terms
@@ -290,7 +290,7 @@ class KeywordWidget(SelectWidget):
                 terms.append(
                     SimpleTerm(new_value, new_token, safe_unicode(new_value)))
 
-        if self.async and IKeywordWidgetAddableSource.providedBy(vocabulary):
+        if IKeywordWidgetAddableSource.providedBy(vocabulary):
             self.terms.terms.instance_vocabulary = SimpleVocabulary(terms)
         else:
             self.terms.terms = SimpleVocabulary(terms)
