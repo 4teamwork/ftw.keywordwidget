@@ -1,6 +1,7 @@
 from binascii import b2a_qp
-from ftw.keywordwidget.utils import safe_utf8
 from ftw.keywordwidget.utils import as_keyword_token
+from ftw.keywordwidget.utils import safe_utf8
+from itertools import chain
 from Products.CMFCore.utils import getToolByName
 from Products.CMFPlone.utils import safe_unicode
 from z3c.formwidget.query.interfaces import IQuerySource
@@ -92,7 +93,10 @@ class KeywordWidgetAddableSourceWrapper(object):
         return getattr(self._source, attr)
 
     def __iter__(self):
-        return iter(self._source)
+        return chain(self._source, self.instance_vocabulary)
+
+    def __contains__(self, value):
+        return value in chain(self._source, self.instance_vocabulary)
 
 
 @implementer(IQuerySource)
