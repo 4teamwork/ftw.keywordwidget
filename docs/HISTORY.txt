@@ -5,6 +5,8 @@ Changelog
 2.0.1 (unreleased)
 ------------------
 
+- Allow to use sources also not in async mode. [njohner]
+- Allow adding new terms in async mode. [njohner]
 - Fix an error where it was no longer possible to add tags after another async widget have been used. [elioschmutz]
 
 

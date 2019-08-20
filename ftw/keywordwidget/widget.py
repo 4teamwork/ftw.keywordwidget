@@ -1,7 +1,8 @@
-from binascii import b2a_qp
 from ftw.keywordwidget import _
 from ftw.keywordwidget.field import ChoicePlus
+from ftw.keywordwidget.utils import as_keyword_token
 from ftw.keywordwidget.utils import safe_utf8
+from ftw.keywordwidget.vocabularies import IKeywordWidgetAddableSource
 from plone import api
 from Products.CMFPlone.utils import safe_unicode
 from Products.Five.browser.pagetemplatefile import ViewPageTemplateFile
@@ -31,12 +32,6 @@ def is_list_type_field(field):
         return True
 
     return False
-
-
-def as_keyword_token(value):
-    if isinstance(value, unicode):
-        value = value.encode('utf-8')
-    return b2a_qp(value)
 
 
 class IKeywordWidget(ISelectWidget):
@@ -265,15 +260,20 @@ class KeywordWidget(SelectWidget):
     def updateTerms(self):
         super(KeywordWidget, self).updateTerms()
 
-        if self.async:
-            # It's not possible to add new terms in async mode
+        vocabulary = self.terms.terms
+
+        if self.async and not IKeywordWidgetAddableSource.providedBy(vocabulary):
+            # It's only possible to add new terms in async mode if the source
+            # implements IKeywordWidgetAddableSource
             return self.terms
+        elif IKeywordWidgetAddableSource.providedBy(vocabulary):
+            simple_vocabulary = self.terms.terms.instance_vocabulary
+        else:
+            simple_vocabulary = self.terms.terms
 
-        simple_vocbaulary = self.terms.terms
-        terms = self.terms.terms._terms
-
+        terms = simple_vocabulary._terms
         for new_value in self.get_new_values_from_request():
-            if new_value not in simple_vocbaulary.by_value:
+            if new_value not in simple_vocabulary:
                 # Vocabulary term tokens *must* be 7 bit values, titles *must*
                 # be unicode.
                 # Value needs to be a utf-8 str, only hell knows why.
@@ -290,7 +290,11 @@ class KeywordWidget(SelectWidget):
                 terms.append(
                     SimpleTerm(new_value, new_token, safe_unicode(new_value)))
 
-        self.terms.terms = SimpleVocabulary(terms)
+        if IKeywordWidgetAddableSource.providedBy(vocabulary):
+            self.terms.terms.instance_vocabulary = SimpleVocabulary(terms)
+        else:
+            self.terms.terms = SimpleVocabulary(terms)
+
         return self.terms
 
     def items(self):
