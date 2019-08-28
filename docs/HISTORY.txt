@@ -5,7 +5,7 @@ Changelog
 2.1.1 (unreleased)
 ------------------
 
-- Nothing changed yet.
+- Append changelog to long_description [Nachtalb]
 
 
 2.1.0 (2019-08-20)
