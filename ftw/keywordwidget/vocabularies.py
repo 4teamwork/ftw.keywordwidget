@@ -109,8 +109,8 @@ class KeywordSearchableSource(object):
         self.context = context
         catalog = getToolByName(context, 'portal_catalog')
         self.keywords = catalog.uniqueValuesFor('Subject')
-        self.vocab = SimpleVocabulary.fromItems(
-            [(as_keyword_token(x), x) for x in self.keywords])
+        self.vocab = SimpleVocabulary(
+            [SimpleTerm(x, as_keyword_token(x), x) for x in self.keywords])
 
     def __contains__(self, term):
         return self.vocab.__contains__(term)

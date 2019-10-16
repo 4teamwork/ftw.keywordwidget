@@ -5,6 +5,7 @@ Changelog
 2.1.1 (unreleased)
 ------------------
 
+- Make sure terms from KeywordSearchableSource have a title. [njohner]
 - Append changelog to long_description [Nachtalb]
 
 

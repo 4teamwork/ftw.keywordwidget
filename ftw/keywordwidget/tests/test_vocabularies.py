@@ -1,6 +1,7 @@
 from ftw.builder import Builder
 from ftw.builder import create
 from ftw.keywordwidget.tests import FunctionalTestCase
+from ftw.keywordwidget.vocabularies import KeywordSearchableSource
 from ftw.keywordwidget.vocabularies import UnicodeKeywordsVocabulary
 import transaction
 
@@ -28,3 +29,14 @@ class TestKeywordWidget(FunctionalTestCase):
 
         vocab = UnicodeKeywordsVocabulary(index_name='dummy')(self.portal)
         self.assertFalse(vocab.by_value.keys(), 'Expect an empty vocab')
+
+    def test_keyword_searchable_source_terms(self):
+        create(Builder('sample content')
+               .titled(u'A content')
+               .having(subjects=(u'Bar', u'Baz')))
+
+        vocab = KeywordSearchableSource(self.portal)
+        term = vocab.getTermByToken('Bar')
+        self.assertEqual('Bar', term.title)
+        self.assertEqual('Bar', term.value)
+        self.assertEqual('Bar', term.token)
