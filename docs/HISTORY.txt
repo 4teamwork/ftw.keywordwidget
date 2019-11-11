@@ -5,7 +5,8 @@ Changelog
 2.1.2 (unreleased)
 ------------------
 
-- Nothing changed yet.
+- Explicitly flush collective.indexing queue before building vocabularies
+  to address some race conditions where catalog contents aren't up-to-date. [lgraf]
 
 
 2.1.1 (2019-10-17)
