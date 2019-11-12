@@ -6,7 +6,7 @@ from plone.app.testing import TEST_USER_ID
 from plone.dexterity.content import Container
 from plone.dexterity.fti import DexterityFTI
 from plone.supermodel import model
-from unittest2 import TestCase
+from unittest import TestCase
 from zope.interface import implements
 from zope.interface import Interface
 import ftw.keywordwidget.tests.widget
