@@ -11,7 +11,6 @@ tests_require = [
     'plone.app.contenttypes',
     'plone.app.testing',
     'plone.testing',
-    'unittest2',
 ]
 
 extras_require = {
