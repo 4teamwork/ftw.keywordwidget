@@ -1,4 +1,5 @@
 from binascii import b2a_qp
+from ftw.keywordwidget.compat import processQueue
 from ftw.keywordwidget.utils import as_keyword_token
 from ftw.keywordwidget.utils import safe_utf8
 from itertools import chain
@@ -32,6 +33,11 @@ class UnicodeKeywordsVocabulary(object):
 
     def __call__(self, context):
         site = getSite()
+
+        # XXX: Explicitly flush collective.indexing queue to make sure we
+        # work with up-to-date results.
+        processQueue()
+
         self.catalog = getToolByName(site, "portal_catalog", None)
         if self.catalog is None:
             return SimpleVocabulary([])
@@ -107,6 +113,11 @@ class KeywordSearchableSource(object):
 
     def __init__(self, context):
         self.context = context
+
+        # XXX: Explicitly flush collective.indexing queue to make sure we
+        # work with up-to-date results.
+        processQueue()
+
         catalog = getToolByName(context, 'portal_catalog')
         self.keywords = catalog.uniqueValuesFor('Subject')
         self.vocab = SimpleVocabulary(
