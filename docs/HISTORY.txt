@@ -2,7 +2,7 @@ Changelog
 =========
 
 
-2.1.2 (unreleased)
+2.1.2 (2019-11-12)
 ------------------
 
 - Explicitly flush collective.indexing queue before building vocabularies
