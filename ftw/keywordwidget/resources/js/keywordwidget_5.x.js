@@ -6434,8 +6434,9 @@ S2.define('jquery.select2',[
 window.ftwKeywordWidget.init();
 
 $(window).load(function(){
-  if ($.fn.select2 === undefined) {
-      console.warn('You need to make sure, that select2 jquery plugin is loaded!');
+  if ($.fn.hackS2 === undefined) {
+      // This should not happen while select2 has been vendored within this module
+      console.warn('You need to make sure, that the select2 jquery plugin is loaded!');
   } else {
     $('.keyword-widget:visible').each(function(index, widget){
       window.ftwKeywordWidget.initWidget($(widget));
@@ -6443,9 +6444,9 @@ $(window).load(function(){
   }
 });
 
-// select2 has issues to get right width of the placeholder element if the content is hidden and select2 gets initialized.
+// select2 has problems getting the correct width of the placeholder element if the content is hidden and select2 gets initialized.
 // See https://github.com/select2/select2/issues/291
-$(document).on("click", "select.formTabs a, ul.formTabs a", function (e, index) {
+$(document).on("click", "form.enableFormTabbing > nav.autotoc-nav a, select.formTabs a, ul.formTabs a", function (e, index) {
   $('.keyword-widget:visible').each(function(index, widget){
     window.ftwKeywordWidget.initWidget($(widget));
   });
