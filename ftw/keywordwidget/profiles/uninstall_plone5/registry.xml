@@ -5,6 +5,10 @@
              interface="Products.CMFPlone.interfaces.IResourceRegistry"
              remove="True"/>
 
+    <records prefix="plone.resources/keywordwidget_select2_js"
+             interface="Products.CMFPlone.interfaces.IResourceRegistry"
+             remove="True"/>
+
     <records prefix="plone.resources/keywordwidget_css"
              interface="Products.CMFPlone.interfaces.IResourceRegistry"
              remove="True"/>

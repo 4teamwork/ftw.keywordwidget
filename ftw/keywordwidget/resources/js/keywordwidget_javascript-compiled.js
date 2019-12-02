@@ -187,3 +187,6 @@ require([
     });
 
 });
+
+define("/Users/danieljowett/development/eggdev/ftw.keywordwidget/ftw/keywordwidget/resources/js/keywordwidget_5.x.js", function(){});
+
