@@ -8,5 +8,11 @@
   "devDependencies": {
     "chokidar-cli": "^2.1.0",
     "requirejs": "^2.3.6"
+  },
+  "scripts": {
+    "build": "r.js -o build.js && r.js -o buildcss.js",
+    "build-css": "r.js -o buildcss.js",
+    "build-js": "r.js -o build.js",
+    "watch": "chokidar \"./ftw/keywordwidget/resources/*/(*.js|*.css)\" -i \"**/*-compiled.(js|css)\" -c \"if [[ '{path}' = *.js ]]; then r.js -o build.js; else r.js -o buildcss.js; fi;\""
   }
 }

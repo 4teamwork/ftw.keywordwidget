@@ -12,7 +12,7 @@ require([
 
 
     require([
-      'keywordwidget_select2_js'
+      'select2'
     ], function(select2) {
 
         // Store the version we've just loaded for our event handlers to use
