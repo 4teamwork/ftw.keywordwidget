@@ -1,35 +1,23 @@
 <registry>
 
-    <records prefix="plone.resources/keywordwidget_select2_js"
-             interface="Products.CMFPlone.interfaces.IResourceRegistry">
-        <value key="js">++resource++ftw.keywordwidget/select2/dist/js/select2.full.min.js</value>
-    </records>
-
     <records prefix="plone.resources/keywordwidget_javascript"
-             interface="Products.CMFPlone.interfaces.IResourceRegistry">
-        <value key="js">++resource++ftw.keywordwidget/js/keywordwidget_5.x.js</value>
-    </records>
+             interface="Products.CMFPlone.interfaces.IResourceRegistry"
+             remove="True"/>
+
+    <records prefix="plone.resources/keywordwidget_select2_js"
+             interface="Products.CMFPlone.interfaces.IResourceRegistry"
+             remove="True"/>
 
     <records prefix="plone.resources/keywordwidget_css"
-             interface="Products.CMFPlone.interfaces.IResourceRegistry">
-        <value key="css">
-            <element>++resource++ftw.keywordwidget/select2/dist/css/select2.min.css</element>
-            <element>++resource++ftw.keywordwidget/css/select2.plone.css</element>
-        </value>
-    </records>
+             interface="Products.CMFPlone.interfaces.IResourceRegistry"
+             remove="True"/>
 
     <records prefix="plone.bundles/ftw-keywordwidget-resources"
              interface="Products.CMFPlone.interfaces.IBundleRegistry">
 
         <!-- Make sure version 3.5 of select2 gets defined first -->
         <value key="depends">plone</value>
-        <value key="resources">
-            <element>keywordwidget_javascript</element>
-            <!-- keywordwidget_javascript MUST be first as it moves select2 3.5 (in 'plone' bundle)
-                 aside to redefine select2 as version 4.0 -->
-            <element>keywordwidget_select2_js</element>
-            <element>keywordwidget_css</element>
-        </value>
+
         <value key="enabled">True</value>
         <value key="compile">True</value>
         <value key="stub_js_modules">jquery</value>
