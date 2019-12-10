@@ -5,5 +5,6 @@
         select2: "../select2/dist/js/select2.full.min",
     },
     name: "keywordwidget_5.x",
-    out: "./ftw/keywordwidget/resources/bundle/ftw-keywordwidget-compiled.js"
+    out: "./ftw/keywordwidget/resources/bundle/ftw-keywordwidget-compiled.js",
+    generateSourceMaps: true
 })
