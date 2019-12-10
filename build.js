@@ -2,9 +2,11 @@
     baseUrl: "./ftw/keywordwidget/resources/js",
     paths: {
         jquery: "empty:",
-        select2: "../select2/dist/js/select2.full.min",
+        keywordwidget_select2_js: "../select2/dist/js/select2.full",
     },
     name: "keywordwidget_5.x",
     out: "./ftw/keywordwidget/resources/bundle/ftw-keywordwidget-compiled.js",
-    generateSourceMaps: true
+    generateSourceMaps: true,
+    // Uncomment the line below for JS development
+    // optimize: "none",
 })
