@@ -6446,7 +6446,7 @@ $(window).load(function(){
 
 // select2 has problems getting the correct width of the placeholder element if the content is hidden and select2 gets initialized.
 // See https://github.com/select2/select2/issues/291
-$(document).on("click", "form.enableFormTabbing > nav.autotoc-nav a, select.formTabs a, ul.formTabs a", function (e, index) {
+$("form.enableFormTabbing > nav.autotoc-nav a, select.formTabs a, ul.formTabs a").on("click", function (e, index) {
   $('.keyword-widget:visible').each(function(index, widget){
     window.ftwKeywordWidget.initWidget($(widget));
   });

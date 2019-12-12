@@ -5,7 +5,7 @@ Changelog
 2.1.3 (unreleased)
 ------------------
 
-- Nothing changed yet.
+- Fix select2 widget not being reinitialized when switching between edit form tabs (resolves #42) [djowett-ftw]
 
 
 2.1.2 (2019-11-12)
@@ -33,8 +33,7 @@ Changelog
 2.0.0 (2019-04-18)
 ------------------
 
-- Add support for Plone 5.1.x. [mbaechtold]
-- Fit newer version of select2 into keywordwidget resources to prevent conflict
+- Add support for Plone 5.1.x. [mbaechtold] - Fit newer version of select2 into keywordwidget resources to prevent conflict
   with an older vers. of select2 required by plone. [mathias.leimgruber, busykoala]
 
 
