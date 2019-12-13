@@ -11,10 +11,7 @@ class TestDefaultProfile(FunctionalTestCase):
         version = portal_setup.getLastVersionForProfile('ftw.keywordwidget:default')
         self.assertNotEqual(version, None)
         if IS_PLONE_5:
-            resources = api.portal.get_registry_record('plone.bundles/ftw-keywordwidget-resources.resources')
-            self.assertTrue(bool(resources), "If the profile is installed "
-                                             "the resources list won't be "
-                                             "empty and the boolean of the "
-                                             "list therefore true.")
+            resources = api.portal.get_registry_record('plone.bundles/ftw-keywordwidget-resources.jscompilation')
+            self.assertTrue(bool(resources), "Profile not installed.")
         else:
             self.assertNotEqual(version, 'unknown')

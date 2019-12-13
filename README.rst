@@ -4,7 +4,7 @@
 Introduction
 ============
 
-``ftw.keywordwidget`` provides three features:
+``ftw.keywordwidget`` provides six features:
 
 1. A widget, which loads select2 for better usability on single and multiselect fields.
 2. A ``ChoicePlus`` field, which allows new terms. This is prevents us from making a specific, complicated source, which allow new items.
@@ -102,10 +102,7 @@ Compatibility
 
 Plone 4.3.x and 5.1.x
 
-In Plone 5.1.x we included the select2 javascript resources in the
-keywordwidget ones and patched things to prevent conflicts with an older
-version of select2 included by plone itself.
-This is a point of failure as the surrounding is changing in future!
+Note that Plone 5.1.x uses v3.5 of Select2 whereas this product uses v4.0.2.
 
 Installation
 ============
@@ -175,7 +172,7 @@ You can configure select2 as you wish by giving a ``js_config`` to widget factor
                       js_config={'placeholder': 'Select something...'})
 
 
-The select2 4.0.3 JS Plugin is shipped with this package.
+The select2 4.0.2 JS Plugin is shipped with this package.
 But you it's not installed with the default profile, because you may already have a
 select2 JS installed for other purpose.
 If you need select2 you can install the ``ftw.keywordwidget Install select2 jquery plugin`` profile.

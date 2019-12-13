@@ -15,3 +15,6 @@
 /var/
 /.nightly_password
 /README.html
+# JS related stuff
+# node_modules contains results of yarn/npm installs - package.json is enough to reproduce it
+node_modules

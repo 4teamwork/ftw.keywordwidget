@@ -2,10 +2,11 @@ Changelog
 =========
 
 
-2.1.3 (unreleased)
+2.2.0 (unreleased)
 ------------------
 
-- Nothing changed yet.
+- Fix product to work on Plone5 in production (resolves #46) [djowett-ftw]
+- Fix on click event for edit form tabs (resolves #42) [djowett-ftw]
 
 
 2.1.2 (2019-11-12)
