@@ -153,10 +153,13 @@ require([
 
     // select2 has problems getting the correct width of the placeholder element if the content is hidden and select2 gets initialized.
     // See https://github.com/select2/select2/issues/291
-    $("form.enableFormTabbing > nav.autotoc-nav a, select.formTabs a, ul.formTabs a").on("click", function (e, index) {
-      $('.keyword-widget:visible').each(function(index, widget){
-        window.ftwKeywordWidget.initWidget($(widget));
-      });
+    const selector = "form.enableFormTabbing > nav.autotoc-nav a, select.formTabs a, ul.formTabs a";
+    $(document).on('mouseup', selector ,function (e) {
+      setTimeout(function(){
+        $('.keyword-widget:visible').each(function(index, widget){
+          window.ftwKeywordWidget.initWidget($(widget));
+        });
+      }, 10);
     });
 
     $(document).on("onLoad OverlayContentReloaded", ".overlay", function() {

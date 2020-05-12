@@ -5,7 +5,7 @@ Changelog
 2.2.1 (unreleased)
 ------------------
 
-- Nothing changed yet.
+- Fix Plone5 JS initialization + Fix loading keywordwidget on tab change. [mathias.leimgruber]
 
 
 2.2.0 (2019-12-14)
