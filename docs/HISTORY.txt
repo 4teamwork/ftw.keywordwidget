@@ -5,7 +5,7 @@ Changelog
 2.2.2 (unreleased)
 ------------------
 
-- Nothing changed yet.
+- Stop generating sourcemaps for JavaScript (which isn't working with Plone). [djowett-ftw]
 
 
 2.2.1 (2020-05-12)
