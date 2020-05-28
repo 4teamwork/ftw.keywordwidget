@@ -6,7 +6,6 @@
     },
     name: "keywordwidget_5.x",
     out: "./ftw/keywordwidget/resources/bundle/ftw-keywordwidget-compiled.js",
-    generateSourceMaps: true,
     // Uncomment the line below for JS development
     // optimize: "none",
 })
