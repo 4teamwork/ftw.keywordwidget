@@ -13,6 +13,6 @@
     "build": "r.js -o build.js && r.js -o buildcss.js",
     "build-css": "r.js -o buildcss.js",
     "build-js": "r.js -o build.js",
-    "watch": "chokidar \"./ftw/keywordwidget/resources/*/(*.js|*.css)\" -i \"**/*-compiled.(js|css)\" -c \"if [[ '{path}' = *.js ]]; then r.js -o build.js; else r.js -o buildcss.js; fi;\""
+    "watch": "chokidar \"./ftw/keywordwidget/resources/*/(*.js|*.css)\" -i \"**/*-compiled.(js|css)\" -c \"/bin/sh -c \\\"if [[ '{path}' = *.js ]]; then r.js -o build.js; else r.js -o buildcss.js; fi;\\\"\""
   }
 }
