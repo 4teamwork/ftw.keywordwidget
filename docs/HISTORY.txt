@@ -6,6 +6,7 @@ Changelog
 ------------------
 
 - Stop generating sourcemaps for JavaScript (which isn't working with Plone). [djowett-ftw]
+- Fix empty select2 widget when initialised too early [Nachtalb]
 
 
 2.2.1 (2020-05-12)
