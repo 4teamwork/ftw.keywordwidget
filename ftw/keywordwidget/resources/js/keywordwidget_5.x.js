@@ -147,8 +147,10 @@ require([
 
     // No need to wait for window.load() with requirejs
     init();
-    $('.keyword-widget:visible').each(function(index, widget){
-      window.ftwKeywordWidget.initWidget($(widget));
+    $(window).on('load', function(){
+      $('.keyword-widget:visible').each(function(index, widget){
+        window.ftwKeywordWidget.initWidget($(widget));
+      });
     });
 
     // select2 has problems getting the correct width of the placeholder element if the content is hidden and select2 gets initialized.
