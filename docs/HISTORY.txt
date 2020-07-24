@@ -5,7 +5,7 @@ Changelog
 2.2.3 (unreleased)
 ------------------
 
-- Nothing changed yet.
+- Move Plone 5 upgrade step to the correct folder so it's picked up by ftw.upgrade [Nachtalb]
 
 
 2.2.2 (2020-07-23)
