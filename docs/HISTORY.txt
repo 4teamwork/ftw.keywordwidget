@@ -2,7 +2,7 @@ Changelog
 =========
 
 
-2.2.3 (unreleased)
+2.2.3 (2021-05-03)
 ------------------
 
 - Make sure the custom focus event does not get triggered on non keywordwifget select2 fields. [mathias.leimgruber]
