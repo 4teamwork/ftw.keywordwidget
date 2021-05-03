@@ -5,6 +5,8 @@ Changelog
 2.2.3 (unreleased)
 ------------------
 
+- Make sure the custom focus event does not get triggered on non keywordwifget select2 fields. [mathias.leimgruber]
+
 - Move Plone 5 upgrade step to the correct folder so it's picked up by ftw.upgrade [Nachtalb]
 
 

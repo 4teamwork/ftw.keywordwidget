@@ -170,7 +170,7 @@ require([
       });
     });
 
-    $(document).on('focus', '.select2-selection.select2-selection--single', function(event){
+    $(document).on('focus', '.keyword-widget ~ .select2 .select2-selection.select2-selection--single', function(event){
 
       // Rough copy of code from select2 (jquery.select2) as we can't use the jQuery plugin
       // $.fn.select2 as it is the wrong version
