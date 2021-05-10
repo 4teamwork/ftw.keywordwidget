@@ -53,6 +53,12 @@ window.ftwKeywordWidget = (function($) {
 
     function initWidget(widget) {
         var config = widget.data("select2config");
+
+        if (config === undefined) {
+          console.info('Invalid keyword widget:', widget);
+          return;
+        }
+
         var i18n = config.i18n;
         var ajaxOptions = widget.data("ajaxoptions");
         var templateSelection = widget.data("templateselection");
